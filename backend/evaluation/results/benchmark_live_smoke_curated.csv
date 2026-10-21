@@ -1,0 +1,307 @@
+﻿case_id,scenario,category,query_type,difficulty,classic,query,schema_recall,schema_precision,retrieval_ms,sql_execution_success,execution_ms,result_correct,column_match,agent_action,comparison_reason,generated_sql,query_contract,agent_reason,error_stage,model_request_attempt_count,model_retry_count,model_timeout_event_count,model_connection_error_event_count,benchmark_error
+GROWTH_OPS-001,growth_ops,趋势汇总,时间趋势,简单,True,查询2026年每个月的新增用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,0.5,0.05,1001.943,True,1639.777,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  STRFTIME(metric_date, '%Y-%m') AS month,
+  SUM(new_users) AS new_users
+FROM growth_daily_metrics
+WHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'
+GROUP BY STRFTIME(metric_date, '%Y-%m')
+ORDER BY month ASC","{'grain': '时间趋势', 'source_tables': ['growth_daily_metrics'], 'filters': [{'phrase': '2026年', 'field': 'metric_date', 'operator': '范围', 'value': ""['2026-01-01', '2027-01-01')""}], 'metrics': ['SUM(new_users)'], 'output_columns': ['month', 'new_users']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+GROWTH_OPS-002,growth_ops,趋势汇总,时间趋势,简单,True,查询2026年每个月的激活用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,0.5,0.05,1070.15,True,1620.679,False,False,executed,返回数据与标准结果不一致,"SELECT
+  STRFTIME(activated_at, '%Y-%m') AS month,
+  SUM(CASE WHEN is_activated = 1 THEN 1 ELSE 0 END) AS activated_users
+FROM user_activations
+WHERE activated_at >= '2026-01-01' AND activated_at < '2027-01-01'
+GROUP BY STRFTIME(activated_at, '%Y-%m')
+ORDER BY month ASC","{'grain': '时间趋势', 'source_tables': ['user_activations'], 'filters': [{'phrase': '2026年', 'field': 'activated_at', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2027-01-01'""}], 'metrics': ['activated_users'], 'output_columns': ['month', 'activated_users']}",修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。,,4,0,0,0,
+GROWTH_OPS-003,growth_ops,趋势汇总,时间趋势,简单,True,查询2026年每个月的次日留存用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,0.5,0.05,1148.561,True,1542.503,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+    STRFTIME(metric_date, '%Y-%m') AS month,
+    SUM(day1_retained_users) AS day1_retained_users
+FROM growth_daily_metrics
+WHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'
+GROUP BY STRFTIME(metric_date, '%Y-%m')
+ORDER BY month ASC","{'grain': '时间趋势', 'source_tables': ['growth_daily_metrics'], 'filters': [{'phrase': '2026年', 'field': 'metric_date', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2027-01-01'""}], 'metrics': ['day1_retained_users'], 'output_columns': ['month', 'day1_retained_users']}",修正SQL中的字段名，将不存在的 registration_date 替换为 growth_daily_metrics 表中实际存在的时间字段 metric_date，以查询2026年每月的次日留存用户数。,,4,0,0,0,
+GROWTH_OPS-004,growth_ops,趋势汇总,时间趋势,简单,True,查询2026年每个月的七日留存用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,0.5,0.07692307692307693,1087.786,True,1578.248,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  STRFTIME(metric_date, '%Y-%m') AS month,
+  SUM(day7_retained_users) AS day7_retained_users
+FROM growth_daily_metrics
+WHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'
+GROUP BY STRFTIME(metric_date, '%Y-%m')
+ORDER BY month ASC","{'grain': '时间趋势', 'source_tables': ['growth_daily_metrics'], 'filters': [{'phrase': '2026年', 'field': 'metric_date', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2027-01-01'""}], 'metrics': ['day7_retained_users'], 'output_columns': ['month', 'day7_retained_users']}",修正SQL中的日期字段名，从observation_date改为growth_daily_metrics表中实际存在的metric_date，以查询2026年每月的七日留存用户数。,,4,0,0,0,
+GROWTH_OPS-005,growth_ops,趋势汇总,时间趋势,简单,True,查询2026年每个月的日活用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,0.5,0.05,1067.929,True,1590.69,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  STRFTIME(metric_date, '%Y-%m') AS month,
+  SUM(daily_active_users) AS daily_active_users
+FROM growth_daily_metrics
+WHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'
+GROUP BY STRFTIME(metric_date, '%Y-%m')
+ORDER BY month ASC","{'grain': '时间趋势', 'source_tables': ['growth_daily_metrics'], 'filters': [{'phrase': '2026年', 'field': 'metric_date', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2027-01-01'""}], 'metrics': ['SUM(daily_active_users)'], 'output_columns': ['month', 'daily_active_users']}",修正字段名：growth_daily_metrics 表中日期字段为 metric_date 而非 activity_date。按月份聚合日活用户数并求和，按时间升序排列。,,4,0,0,0,
+GROWTH_OPS-006,growth_ops,趋势汇总,日趋势,简单,True,查看2026-01每天的新增用户数变化；请返回指标日期、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,1359.191,True,1563.941,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT metric_date, SUM(new_users) AS new_users FROM growth_daily_metrics WHERE metric_date >= '2026-01-01' AND metric_date < '2026-02-01' GROUP BY metric_date ORDER BY metric_date ASC","{'grain': '时间趋势', 'source_tables': ['growth_daily_metrics'], 'filters': [{'phrase': '2026-01', 'field': 'metric_date', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2026-02-01'""}], 'metrics': ['SUM(new_users)'], 'output_columns': ['metric_date', 'new_users']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+GROWTH_OPS-026,growth_ops,渠道与拉新,分组排行,简单,True,2026-01各获客渠道新增用户数排名；请返回渠道名称、新增用户数；聚合口径：可加总指标按当前查询粒度求和；按核心指标从高到低展示。,1.0,0.15,1183.578,True,1584.948,True,True,executed,结果一致,"SELECT
+  ac.channel_name,
+  SUM(gdm.new_users) AS new_users
+FROM growth_daily_metrics gdm
+JOIN acquisition_channels ac ON gdm.channel_id = ac.channel_id
+WHERE gdm.metric_date >= '2026-01-01' AND gdm.metric_date < '2026-02-01'
+GROUP BY ac.channel_name
+ORDER BY new_users DESC, ac.channel_name ASC","{'grain': '分组汇总', 'source_tables': ['growth_daily_metrics', 'acquisition_channels'], 'filters': [{'phrase': '2026-01', 'field': 'growth_daily_metrics.metric_date', 'operator': '范围', 'value': "">= '2026-01-01' AND < '2026-02-01'""}], 'metrics': ['SUM(new_users)'], 'output_columns': ['channel_name', 'new_users']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。,,4,0,0,0,
+GROWTH_OPS-061,growth_ops,激活与漏斗,耗时分析,中等,True,自然推荐渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。,1.0,0.23076923076923078,1047.363,True,1675.711,True,True,executed,结果一致,"SELECT
+  ac.channel_name,
+  AVG(ua.activation_seconds) AS avg_activation_seconds
+FROM user_activations ua
+JOIN users u ON ua.user_id = u.user_id
+JOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id
+WHERE ua.is_activated = 1
+  AND ac.channel_name = '自然推荐'
+GROUP BY ac.channel_name","{'grain': '单行汇总', 'source_tables': ['user_activations', 'users', 'acquisition_channels'], 'filters': [{'phrase': '激活用户', 'field': 'user_activations.is_activated', 'operator': '=', 'value': 1}, {'phrase': '自然推荐渠道', 'field': 'acquisition_channels.channel_name', 'operator': '=', 'value': '自然推荐'}], 'metrics': ['AVG(user_activations.activation_seconds)'], 'output_columns': ['channel_name', 'avg_activation_seconds']}",修正SQL中的表名前缀，DuckDB中直接引用表名即可，无需schema前缀。保持查询口径不变：统计自然推荐渠道下已激活用户的平均激活耗时。,,4,0,0,0,
+GROWTH_OPS-062,growth_ops,激活与漏斗,耗时分析,中等,True,应用商店渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。,1.0,0.3,999.951,True,1628.148,True,True,executed,结果一致,"SELECT
+  ac.channel_name,
+  AVG(ua.activation_seconds) AS avg_activation_seconds
+FROM user_activations ua
+JOIN users u ON ua.user_id = u.user_id
+JOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id
+WHERE ua.is_activated = 1
+  AND ac.channel_name = '应用商店'
+GROUP BY ac.channel_name","{'grain': '单行汇总', 'source_tables': ['user_activations', 'users', 'acquisition_channels'], 'filters': [{'phrase': '激活用户', 'field': 'user_activations.is_activated', 'operator': '=', 'value': 1}, {'phrase': '应用商店渠道', 'field': 'acquisition_channels.channel_name', 'operator': '=', 'value': '应用商店'}], 'metrics': ['AVG(user_activations.activation_seconds)'], 'output_columns': ['channel_name', 'avg_activation_seconds']}",修正SQL中的表名前缀，移除不存在的schema前缀以解决Catalog Error。,,5,0,0,0,
+GROWTH_OPS-063,growth_ops,激活与漏斗,耗时分析,中等,True,信息流广告渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。,1.0,0.25,1005.577,True,1625.597,True,True,executed,结果一致,"SELECT 
+  ac.channel_name,
+  AVG(ua.activation_seconds) AS avg_activation_seconds
+FROM user_activations ua
+JOIN users u ON ua.user_id = u.user_id
+JOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id
+WHERE ua.is_activated = 1
+  AND ac.channel_name = '信息流广告'
+GROUP BY ac.channel_name","{'grain': '单行汇总', 'source_tables': ['user_activations', 'users', 'acquisition_channels'], 'filters': [{'phrase': '激活用户', 'field': 'user_activations.is_activated', 'operator': '=', 'value': '1'}, {'phrase': '信息流广告渠道', 'field': 'acquisition_channels.channel_name', 'operator': '=', 'value': '信息流广告'}], 'metrics': ['avg_activation_seconds'], 'output_columns': ['channel_name', 'avg_activation_seconds']}",修正SQL中的表名前缀错误，移除不存在的schema前缀，保持查询逻辑不变。,,4,0,0,0,
+GROWTH_OPS-064,growth_ops,激活与漏斗,耗时分析,中等,True,搜索广告渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。,1.0,0.25,1084.446,True,1638.782,True,True,executed,结果一致,"SELECT
+  ac.channel_name,
+  AVG(ua.activation_seconds) AS avg_activation_seconds
+FROM user_activations ua
+JOIN users u ON ua.user_id = u.user_id
+JOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id
+WHERE ua.is_activated = 1
+  AND ac.channel_name = '搜索广告'
+GROUP BY ac.channel_name","{'grain': '单行汇总', 'source_tables': ['user_activations', 'users', 'acquisition_channels'], 'filters': [{'phrase': '激活用户', 'field': 'user_activations.is_activated', 'operator': '=', 'value': 1}, {'phrase': '搜索广告渠道', 'field': 'acquisition_channels.channel_name', 'operator': '=', 'value': '搜索广告'}], 'metrics': ['平均激活耗时'], 'output_columns': ['channel_name', 'avg_activation_seconds']}",修正SQL中的表名前缀，移除不存在的schema前缀以解决Catalog Error。,,4,0,0,0,
+GROWTH_OPS-066,growth_ops,激活与漏斗,规则分布,简单,True,按激活规则统计用户数，重点查看观看3条视频；请返回激活规则、用户数；聚合口径：数量指标按对应业务记录计数。,1.0,0.1,1016.687,True,1614.571,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  activation_rule,
+  COUNT(*) AS user_count
+FROM user_activations
+GROUP BY activation_rule
+ORDER BY 
+  CASE WHEN activation_rule = '观看3条视频' THEN 0 ELSE 1 END,
+  user_count DESC","{'grain': '分组汇总', 'source_tables': ['user_activations'], 'filters': [], 'metrics': ['用户数'], 'output_columns': ['activation_rule', 'user_count']}",修正表名引用，移除不存在的schema前缀，直接查询user_activations表并按激活规则分组统计用户数，重点查看观看3条视频。,,4,0,0,0,
+GROWTH_OPS-086,growth_ops,留存与活跃,活跃质量,简单,True,华东用户平均活跃时长和会话次数；请返回地区、平均活跃时长、平均会话次数；聚合口径：平均指标取算术平均。,1.0,0.15,1055.228,True,1699.297,True,True,executed,结果一致,"SELECT
+  up.region,
+  AVG(uda.active_minutes) AS avg_active_minutes,
+  AVG(uda.session_count) AS avg_session_count
+FROM user_daily_activity uda
+JOIN user_profiles up ON uda.user_id = up.user_id
+WHERE up.region = '华东'
+GROUP BY up.region","{'grain': '分组汇总', 'source_tables': ['user_daily_activity', 'user_profiles'], 'filters': [{'phrase': '华东用户', 'field': 'user_profiles.region', 'operator': '=', 'value': '华东'}], 'metrics': ['平均活跃时长', '平均会话次数'], 'output_columns': ['region', 'avg_active_minutes', 'avg_session_count']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。,,4,0,0,0,
+GROWTH_OPS-101,growth_ops,用户分层与流失,画像分布,简单,True,用户按地区的分布；请返回地区、用户数；聚合口径：数量指标按对应业务记录计数。,1.0,0.1,1332.018,True,1654.064,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT user_profiles.region AS region, COUNT(DISTINCT users.user_id) AS user_count FROM users JOIN user_profiles ON users.user_id = user_profiles.user_id GROUP BY user_profiles.region ORDER BY user_count DESC","{'grain': '分组汇总', 'source_tables': ['users', 'user_profiles'], 'filters': [], 'metrics': ['用户数'], 'output_columns': ['region', 'user_count']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询数据库中的表。,,4,0,0,0,
+GROWTH_OPS-131,growth_ops,召回与目标,活动效果,中等,True,面向沉默7天的召回活动效果排名；请返回活动名称、触达数量、召回率；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母；按核心指标从高到低展示。,1.0,0.15,1035.726,True,1592.134,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  rc.campaign_name,
+  COUNT(rt.touch_id) AS touch_count,
+  SUM(rr.recalled) / NULLIF(COUNT(rt.touch_id), 0) AS recall_rate
+FROM recall_campaigns rc
+JOIN recall_touches rt ON rc.recall_campaign_id = rt.recall_campaign_id
+LEFT JOIN recall_results rr ON rt.touch_id = rr.touch_id
+WHERE rc.target_segment = '沉默7天'
+GROUP BY rc.campaign_name
+ORDER BY recall_rate DESC, rc.campaign_name ASC
+LIMIT 200","{'grain': '分组汇总', 'source_tables': ['recall_campaigns', 'recall_touches', 'recall_results'], 'filters': [{'phrase': '面向沉默7天的召回活动', 'field': 'recall_campaigns.target_segment', 'operator': '=', 'value': '沉默7天'}], 'metrics': ['触达数量', '召回率'], 'output_columns': ['campaign_name', 'touch_count', 'recall_rate']}",修正SQL中的表名引用，移除不存在的schema前缀，保持查询逻辑不变。,,4,0,0,0,
+GROWTH_OPS-149,growth_ops,召回与目标,目标差距,复杂,True,2026-04各渠道激活率实际值与目标差距；请返回渠道名称、实际比率、激活率目标、目标差距；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母。,0.8,0.21052631578947367,1619.534,True,1655.531,False,False,executed,返回数据与标准结果不一致,"SELECT
+  ac.channel_name,
+  ROUND(CAST(SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) AS DOUBLE) / NULLIF(COUNT(ua.user_id), 0), 4) AS actual_activation_rate,
+  gt.activation_rate_target,
+  ROUND(CAST(SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) AS DOUBLE) / NULLIF(COUNT(ua.user_id), 0), 4) - gt.activation_rate_target AS target_gap
+FROM acquisition_channels ac
+JOIN users u ON ac.channel_id = u.register_channel_id
+JOIN user_activations ua ON u.user_id = ua.user_id
+JOIN growth_targets gt ON ac.channel_id = gt.channel_id
+WHERE ua.activated_at >= '2026-04-01' AND ua.activated_at < '2026-05-01'
+  AND gt.target_month = '2026-04'
+GROUP BY ac.channel_name, gt.activation_rate_target
+ORDER BY target_gap DESC, ac.channel_name ASC","{'grain': '分组汇总', 'source_tables': ['acquisition_channels', 'users', 'user_activations', 'growth_targets'], 'filters': [{'phrase': '2026-04', 'field': 'ua.activated_at', 'operator': '范围', 'value': ""['2026-04-01', '2026-05-01')""}, {'phrase': '2026-04', 'field': 'gt.target_month', 'operator': '=', 'value': '2026-04'}], 'metrics': ['actual_activation_rate', 'activation_rate_target', 'target_gap'], 'output_columns': ['channel_name', 'actual_activation_rate', 'activation_rate_target', 'target_gap']}",修正SQL中的表名前缀，移除不存在的schema名称，保持查询逻辑不变。,,5,1,0,1,
+GROWTH_OPS-150,growth_ops,召回与目标,目标差距,复杂,True,2026-05各渠道激活率实际值与目标差距；请返回渠道名称、实际比率、激活率目标、目标差距；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母。,0.6,0.17647058823529413,1117.237,True,1787.084,False,False,executed,返回行数不一致,"SELECT
+  ac.channel_name,
+  SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(ua.activation_id), 0) AS actual_activation_rate,
+  gt.activation_rate_target,
+  (SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(ua.activation_id), 0)) - gt.activation_rate_target AS gap
+FROM user_registrations ur
+JOIN acquisition_channels ac ON ur.channel_id = ac.channel_id
+JOIN users u ON ur.user_id = u.user_id
+LEFT JOIN user_activations ua ON u.user_id = ua.user_id
+JOIN growth_targets gt ON ac.channel_id = gt.channel_id
+WHERE u.registered_at >= '2026-05-01' AND u.registered_at < '2026-06-01'
+GROUP BY ac.channel_name, gt.activation_rate_target
+ORDER BY gap DESC, ac.channel_name ASC","{'grain': '分组汇总', 'source_tables': ['user_registrations', 'acquisition_channels', 'users', 'user_activations', 'growth_targets'], 'filters': [{'phrase': '2026-05', 'field': 'users.registered_at', 'operator': '范围', 'value': ""['2026-05-01', '2026-06-01')""}], 'metrics': ['实际激活率', '激活率目标', '目标差距'], 'output_columns': ['channel_name', 'actual_activation_rate', 'activation_rate_target', 'gap']}",修正SQL中的表名引用，移除不存在的schema前缀，保持查询逻辑不变。,,4,0,0,0,
+CHANNEL_OPS-001,channel_ops,消耗趋势,月度趋势,简单,True,2026-01每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,1072.23,True,1676.856,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-01-01' AND stat_date < '2026-02-01' GROUP BY stat_date ORDER BY stat_date ASC","{'grain': '时间趋势', 'source_tables': ['ad_daily_stats'], 'filters': [{'phrase': '2026-01每天', 'field': 'ad_daily_stats.stat_date', 'operator': '范围', 'value': ""['2026-01-01', '2026-02-01')""}], 'metrics': ['SUM(ad_daily_stats.spend)'], 'output_columns': ['stat_date', 'ad_spend']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-002,channel_ops,消耗趋势,月度趋势,简单,True,2026-02每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,1014.22,True,1593.207,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-02-01' AND stat_date < '2026-03-01' GROUP BY stat_date ORDER BY stat_date ASC","{'grain': '时间趋势', 'source_tables': ['ad_daily_stats'], 'filters': [{'phrase': '2026-02每天', 'field': 'ad_daily_stats.stat_date', 'operator': '范围', 'value': "">= '2026-02-01' AND < '2026-03-01'""}], 'metrics': ['SUM(ad_daily_stats.spend)'], 'output_columns': ['stat_date', 'ad_spend']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-003,channel_ops,消耗趋势,月度趋势,简单,True,2026-03每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,1117.069,True,1623.328,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-03-01' AND stat_date < '2026-04-01' GROUP BY stat_date ORDER BY stat_date ASC","{'grain': '时间趋势', 'source_tables': ['ad_daily_stats'], 'filters': [{'phrase': '2026-03每天', 'field': 'ad_daily_stats.stat_date', 'operator': '范围', 'value': "">= '2026-03-01' AND < '2026-04-01'""}], 'metrics': ['SUM(ad_daily_stats.spend)'], 'output_columns': ['stat_date', 'ad_spend']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-004,channel_ops,消耗趋势,月度趋势,简单,True,2026-04每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,997.034,True,1729.065,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-04-01' AND stat_date < '2026-05-01' GROUP BY stat_date ORDER BY stat_date ASC","{'grain': '时间趋势', 'source_tables': ['ad_daily_stats'], 'filters': [{'phrase': '2026-04每天', 'field': 'ad_daily_stats.stat_date', 'operator': '范围', 'value': ""['2026-04-01', '2026-05-01')""}], 'metrics': ['SUM(ad_daily_stats.spend)'], 'output_columns': ['stat_date', 'ad_spend']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-005,channel_ops,消耗趋势,月度趋势,简单,True,2026-05每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.1,1029.709,True,1627.458,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-05-01' AND stat_date < '2026-06-01' GROUP BY stat_date ORDER BY stat_date ASC","{'grain': '时间趋势', 'source_tables': ['ad_daily_stats'], 'filters': [{'phrase': '2026-05每天', 'field': 'ad_daily_stats.stat_date', 'operator': '范围', 'value': "">= '2026-05-01' AND < '2026-06-01'""}], 'metrics': ['SUM(ad_daily_stats.spend)'], 'output_columns': ['stat_date', 'ad_spend']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-066,channel_ops,转化成本,转化价值,简单,True,registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.1,1041.112,True,1588.777,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  conversion_type,
+  COUNT(*) AS conversion_count,
+  AVG(conversion_value) AS avg_conversion_value
+FROM channel_conversion_events
+WHERE conversion_type = 'registration'
+GROUP BY conversion_type
+ORDER BY conversion_count DESC, conversion_type ASC","{'grain': '分组汇总', 'source_tables': ['channel_conversion_events'], 'filters': [{'phrase': 'registration转化事件', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'registration'}], 'metrics': ['conversion_count', 'avg_conversion_value'], 'output_columns': ['conversion_type', 'conversion_count', 'avg_conversion_value']}",根据查询契约生成并执行只读SQL，修正遗漏的筛选条件 conversion_type='registration',,4,0,0,0,
+CHANNEL_OPS-067,channel_ops,转化成本,转化价值,简单,True,activation转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.10526315789473684,1076.644,True,1603.369,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  conversion_type,
+  COUNT(*) AS conversion_count,
+  AVG(conversion_value) AS avg_conversion_value
+FROM channel_conversion_events
+WHERE conversion_type = 'activation'
+GROUP BY conversion_type
+ORDER BY conversion_count DESC, conversion_type ASC","{'grain': '分组汇总', 'source_tables': ['channel_conversion_events'], 'filters': [{'phrase': 'activation转化事件', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'activation'}], 'metrics': ['COUNT(*)', 'AVG(conversion_value)'], 'output_columns': ['conversion_type', 'conversion_count', 'avg_conversion_value']}",根据校验错误修正SQL，增加 WHERE conversion_type = 'activation' 条件以限定为 activation 类型的转化事件。,,4,0,0,0,
+CHANNEL_OPS-068,channel_ops,转化成本,转化价值,简单,True,请汇总registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.125,1018.81,True,1626.729,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  conversion_type,
+  COUNT(*) AS conversion_count,
+  AVG(conversion_value) AS avg_conversion_value
+FROM channel_conversion_events
+WHERE conversion_type = 'registration'
+GROUP BY conversion_type
+ORDER BY conversion_type ASC","{'grain': '分组汇总', 'source_tables': ['channel_conversion_events'], 'filters': [{'phrase': 'registration转化事件', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'registration'}], 'metrics': ['COUNT(*)', 'AVG(conversion_value)'], 'output_columns': ['conversion_type', 'conversion_count', 'avg_conversion_value']}",根据查询契约生成并执行只读SQL，修正遗漏的筛选条件 conversion_type='registration',,4,0,0,0,
+CHANNEL_OPS-069,channel_ops,转化成本,转化价值,简单,True,请汇总activation转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.1111111111111111,1230.946,True,1604.722,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  conversion_type,
+  COUNT(*) AS conversion_count,
+  AVG(conversion_value) AS avg_value
+FROM channel_conversion_events
+WHERE conversion_type = 'activation'
+GROUP BY conversion_type
+ORDER BY conversion_type ASC","{'grain': '分组汇总', 'source_tables': ['channel_conversion_events'], 'filters': [{'phrase': 'activation转化事件', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'activation'}], 'metrics': ['COUNT(*)', 'AVG(conversion_value)'], 'output_columns': ['conversion_type', 'conversion_count', 'avg_value']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CHANNEL_OPS-070,channel_ops,转化成本,转化价值,简单,True,请分析registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.1,1022.482,True,1575.272,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  conversion_type,
+  COUNT(*) AS conversion_count,
+  AVG(conversion_value) AS avg_conversion_value
+FROM channel_conversion_events
+WHERE conversion_type = 'registration'
+GROUP BY conversion_type","{'grain': '单行汇总', 'source_tables': ['channel_conversion_events'], 'filters': [{'phrase': 'registration转化事件', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'registration'}], 'metrics': ['conversion_count', 'avg_conversion_value'], 'output_columns': ['conversion_type', 'conversion_count', 'avg_conversion_value']}",根据用户要求分析registration转化事件的数量和平均价值。使用channel_conversion_events表，通过WHERE条件筛选conversion_type='registration'，统计记录数作为转化数，计算conversion_value的算术平均值作为平均价值。返回列顺序为：业务维度(转化类型)、基础业务量(转化数)、派生指标(平均价值)。,,4,0,0,0,
+CHANNEL_OPS-076,channel_ops,计划账户,计划状态,简单,True,统计active状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。,1.0,0.15,1068.02,True,1568.024,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  status,
+  COUNT(*) AS ad_campaign_count,
+  SUM(budget) AS total_budget
+FROM ad_campaigns
+WHERE status = 'active'
+GROUP BY status","{'grain': '单行汇总', 'source_tables': ['ad_campaigns'], 'filters': [{'phrase': 'active状态', 'field': 'ad_campaigns.status', 'operator': '=', 'value': 'active'}], 'metrics': ['广告计划数', '预算'], 'output_columns': ['status', 'ad_campaign_count', 'total_budget']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询ad_campaigns表以统计active状态的广告计划数量和预算总和。,,4,0,0,0,
+CHANNEL_OPS-077,channel_ops,计划账户,计划状态,简单,True,统计completed状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。,1.0,0.16666666666666666,1060.044,True,1565.186,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT status, COUNT(*) AS ad_campaign_count, SUM(budget) AS total_budget FROM ad_campaigns WHERE status = 'completed' GROUP BY status","{'grain': '单行汇总', 'source_tables': ['ad_campaigns'], 'filters': [{'phrase': 'completed状态', 'field': 'ad_campaigns.status', 'operator': '=', 'value': 'completed'}], 'metrics': ['COUNT(*)', 'SUM(budget)'], 'output_columns': ['status', 'ad_campaign_count', 'total_budget']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询ad_campaigns表以统计completed状态的广告计划数量和预算总和。,,4,0,0,0,
+CHANNEL_OPS-078,channel_ops,计划账户,计划状态,简单,True,请汇总统计active状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。,1.0,0.17647058823529413,988.182,True,1582.548,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  status,
+  COUNT(*) AS ad_campaign_count,
+  SUM(budget) AS total_budget
+FROM ad_campaigns
+WHERE status = 'active'
+GROUP BY status","{'grain': '单行汇总', 'source_tables': ['ad_campaigns'], 'filters': [{'phrase': 'active状态', 'field': 'ad_campaigns.status', 'operator': '=', 'value': 'active'}], 'metrics': ['COUNT(*)', 'SUM(budget)'], 'output_columns': ['status', 'ad_campaign_count', 'total_budget']}",修正表名引用，移除不存在的 schema 前缀，重新执行查询。,,4,0,0,0,
+CHANNEL_OPS-079,channel_ops,计划账户,计划状态,简单,True,请汇总统计completed状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。,1.0,0.23076923076923078,984.0,True,1675.379,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT status, COUNT(*) AS ad_campaign_count, SUM(budget) AS total_budget FROM ad_campaigns WHERE status = 'completed' GROUP BY status","{'grain': '单行汇总', 'source_tables': ['ad_campaigns'], 'filters': [{'phrase': 'completed状态', 'field': 'ad_campaigns.status', 'operator': '=', 'value': 'completed'}], 'metrics': ['COUNT(*)', 'SUM(budget)'], 'output_columns': ['status', 'ad_campaign_count', 'total_budget']}",修正SQL中的表名引用，去除不存在的schema前缀，直接查询ad_campaigns表以统计completed状态的广告计划数量和预算总和。,,4,0,0,0,
+CHANNEL_OPS-101,channel_ops,素材结构,素材分布,简单,True,短视频创意的状态分布；请返回创意状态、创意数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1021.516,True,1573.267,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT creative_status, COUNT(*) AS creative_count FROM ad_creatives WHERE creative_type = '短视频' GROUP BY creative_status ORDER BY creative_count DESC, creative_status ASC","{'grain': '分组汇总', 'source_tables': ['ad_creatives'], 'filters': [{'phrase': '短视频创意', 'field': 'ad_creatives.creative_type', 'operator': '=', 'value': '短视频'}], 'metrics': ['COUNT(*)'], 'output_columns': ['creative_status', 'creative_count']}",根据查询契约生成并执行只读SQL，修正遗漏的创意类型筛选条件,,4,0,0,0,
+CHANNEL_OPS-141,channel_ops,归因与目标,事件归因,简单,True,registration转化按渠道分布；请返回渠道名称、转化数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1013.028,True,1613.068,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT
+  ac.channel_name,
+  COUNT(*) AS conversion_count
+FROM channel_conversion_events cce
+JOIN acquisition_channels ac ON cce.channel_id = ac.channel_id
+WHERE cce.conversion_type = 'registration'
+GROUP BY ac.channel_name
+ORDER BY conversion_count DESC, ac.channel_name ASC","{'grain': '分组汇总', 'source_tables': ['channel_conversion_events', 'acquisition_channels'], 'filters': [{'phrase': '转化', 'field': 'channel_conversion_events.conversion_type', 'operator': '=', 'value': 'registration'}], 'metrics': ['COUNT(*)'], 'output_columns': ['channel_name', 'conversion_count']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。,,5,0,0,0,
+CONTENT_OPS-001,content_ops,曝光播放,月度趋势,简单,True,2026-01每天的视频曝光量和播放量；请返回指标日期、曝光量、播放量；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。,1.0,0.15,7076.869,True,1597.77,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT metric_date, SUM(impressions) AS impressions, SUM(play_count) AS play_count FROM content_daily_metrics WHERE metric_date >= '2026-01-01' AND metric_date < '2026-02-01' GROUP BY metric_date ORDER BY metric_date ASC","{'grain': '时间趋势', 'source_tables': ['content_daily_metrics'], 'filters': [{'phrase': '2026-01', 'field': 'metric_date', 'operator': '范围', 'value': ""['2026-01-01', '2026-02-01')""}], 'metrics': ['曝光量', '播放量'], 'output_columns': ['metric_date', 'impressions', 'play_count']}",根据查询契约生成并执行只读SQL,,4,1,0,1,
+CONTENT_OPS-029,content_ops,观看互动,观看质量,中等,True,基于播放明细，计算知识类内容每次播放的平均观看时长和平均完播率；请返回内容分类、平均观看时长、平均完播率；聚合口径：平均指标取算术平均。,1.0,0.15,1066.426,True,1735.326,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  AVG(vp.watch_seconds) AS ""平均观看时长"",
+  AVG(vp.completion_rate) AS ""平均完播率""
+FROM video_plays vp
+JOIN contents c ON vp.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cc.category_name = '知识'
+GROUP BY cc.category_name","{'grain': '单行汇总', 'source_tables': ['video_plays', 'contents', 'content_categories'], 'filters': [{'phrase': '知识类内容', 'field': 'content_categories.category_name', 'operator': '=', 'value': '知识'}], 'metrics': ['AVG(video_plays.watch_seconds)', 'AVG(video_plays.completion_rate)'], 'output_columns': ['内容分类', '平均观看时长', '平均完播率']}",修正SQL中的表名引用，移除不存在的schema前缀，直接查询知识类内容的播放明细指标。,,4,0,0,0,
+CONTENT_OPS-030,content_ops,观看互动,观看质量,中等,True,基于播放明细，计算体育类内容每次播放的平均观看时长和平均完播率；请返回内容分类、平均观看时长、平均完播率；聚合口径：平均指标取算术平均。,1.0,0.15,962.105,True,1689.339,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  AVG(vp.watch_seconds) AS ""平均观看时长"",
+  AVG(vp.completion_rate) AS ""平均完播率""
+FROM video_plays vp
+JOIN contents c ON vp.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cc.category_name = '体育'
+GROUP BY cc.category_name","{'grain': '单行汇总', 'source_tables': ['video_plays', 'contents', 'content_categories'], 'filters': [{'phrase': '体育类内容', 'field': 'content_categories.category_name', 'operator': '=', 'value': '体育'}], 'metrics': ['AVG(video_plays.watch_seconds)', 'AVG(video_plays.completion_rate)'], 'output_columns': ['内容分类', '平均观看时长', '平均完播率']}",修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。,,4,0,0,0,
+CONTENT_OPS-031,content_ops,观看互动,互动分布,中等,True,like互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1095.05,True,1633.435,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  COUNT(vi.interaction_id) AS ""互动数""
+FROM video_interactions vi
+JOIN contents c ON vi.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE vi.interaction_type = 'like'
+GROUP BY cc.category_name
+ORDER BY ""互动数"" DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['video_interactions', 'contents', 'content_categories'], 'filters': [{'phrase': 'like互动', 'field': 'video_interactions.interaction_type', 'operator': '=', 'value': 'like'}], 'metrics': ['COUNT(video_interactions.interaction_id)'], 'output_columns': ['内容分类', '互动数']}",修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。,,5,0,0,0,
+CONTENT_OPS-032,content_ops,观看互动,互动分布,中等,True,comment互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1067.778,True,1698.919,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  COUNT(vi.interaction_id) AS ""互动数""
+FROM video_interactions vi
+JOIN contents c ON vi.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE vi.interaction_type = 'comment'
+GROUP BY cc.category_name
+ORDER BY ""互动数"" DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['video_interactions', 'contents', 'content_categories'], 'filters': [{'phrase': 'comment互动', 'field': 'video_interactions.interaction_type', 'operator': '=', 'value': 'comment'}], 'metrics': ['COUNT(video_interactions.interaction_id)'], 'output_columns': ['内容分类', '互动数']}",修正SQL中的表名前缀，DuckDB中直接使用表名即可，无需schema前缀。,,5,0,0,0,
+CONTENT_OPS-033,content_ops,观看互动,互动分布,中等,True,share互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1049.117,True,1661.354,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS content_category,
+  COUNT(vi.interaction_id) AS interaction_count
+FROM video_interactions vi
+JOIN contents c ON vi.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE vi.interaction_type = 'share'
+GROUP BY cc.category_name
+ORDER BY interaction_count DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['video_interactions', 'contents', 'content_categories'], 'filters': [{'phrase': 'share互动', 'field': 'video_interactions.interaction_type', 'operator': '=', 'value': 'share'}], 'metrics': ['COUNT(video_interactions.interaction_id)'], 'output_columns': ['content_category', 'interaction_count']}",修正SQL中的表名引用，移除不存在的schema前缀，直接使用表名执行查询。,,5,0,0,0,
+CONTENT_OPS-034,content_ops,观看互动,互动分布,中等,True,favorite互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1186.161,True,1614.23,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  COUNT(vi.interaction_id) AS ""互动数""
+FROM video_interactions vi
+JOIN contents c ON vi.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE vi.interaction_type = 'favorite'
+GROUP BY cc.category_name
+ORDER BY ""互动数"" DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['video_interactions', 'contents', 'content_categories'], 'filters': [{'phrase': 'favorite互动', 'field': 'video_interactions.interaction_type', 'operator': '=', 'value': 'favorite'}], 'metrics': ['COUNT(video_interactions.interaction_id)'], 'output_columns': ['内容分类', '互动数']}",修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。,,4,0,0,0,
+CONTENT_OPS-035,content_ops,观看互动,互动分布,中等,True,follow互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,998.39,True,1719.334,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS content_category,
+  COUNT(vi.interaction_id) AS interaction_count
+FROM video_interactions vi
+JOIN contents c ON vi.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE vi.interaction_type = 'follow'
+GROUP BY cc.category_name
+ORDER BY interaction_count DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['video_interactions', 'contents', 'content_categories'], 'filters': [{'phrase': 'follow互动', 'field': 'video_interactions.interaction_type', 'operator': '=', 'value': 'follow'}], 'metrics': ['COUNT(video_interactions.interaction_id)'], 'output_columns': ['content_category', 'interaction_count']}",修正SQL中的表名前缀，移除不存在的schema名称，直接引用表名以符合DuckDB当前环境的Catalog结构。,,4,0,0,0,
+CONTENT_OPS-036,content_ops,观看互动,互动趋势,简单,True,2026-01每天的有效互动数；请返回互动日期、互动数；聚合口径：数量指标按对应业务记录计数；按时间升序展示。,1.0,0.15,1048.913,True,1605.981,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT CAST(interacted_at AS DATE) AS interacted_date, COUNT(*) AS interaction_count FROM video_interactions WHERE valid_interaction = 1 AND interacted_at >= '2026-01-01' AND interacted_at < '2026-02-01' GROUP BY CAST(interacted_at AS DATE) ORDER BY interacted_date ASC","{'grain': '时间趋势', 'source_tables': ['video_interactions'], 'filters': [{'phrase': '有效互动', 'field': 'video_interactions.valid_interaction', 'operator': '=', 'value': '1'}, {'phrase': '2026-01每天', 'field': 'video_interactions.interacted_at', 'operator': 'range', 'value': ""['2026-01-01', '2026-02-01')""}], 'metrics': ['COUNT(*)'], 'output_columns': ['interacted_date', 'interaction_count']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CONTENT_OPS-051,content_ops,分类内容,内容供给,简单,True,搞笑类内容数量和平均视频时长；请返回内容分类、内容数量、平均视频时长；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。,1.0,0.15,1257.343,True,1588.066,False,False,executed,返回数据与标准结果不一致,"SELECT 
+  cc.category_name AS ""内容分类"",
+  COUNT(c.content_id) AS ""内容数量"",
+  AVG(c.duration_seconds) AS ""平均视频时长""
+FROM contents c
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cc.category_name = '搞笑'
+GROUP BY cc.category_name","{'grain': '分组汇总', 'source_tables': ['contents', 'content_categories'], 'filters': [{'phrase': '搞笑类', 'field': 'content_categories.category_name', 'operator': '=', 'value': '搞笑'}], 'metrics': ['COUNT(contents.content_id)', 'AVG(contents.duration_seconds)'], 'output_columns': ['内容分类', '内容数量', '平均视频时长']}",修正SQL中的表名前缀，DuckDB中直接引用表名即可，无需schema前缀。,,4,0,0,0,
+CONTENT_OPS-076,content_ops,创作者,创作者分层,简单,True,新星级创作者数量和状态分布；请返回创作者状态、创作者数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1002.96,True,1736.554,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT creator_status, COUNT(*) AS creator_count FROM creators WHERE creator_level = '新星' GROUP BY creator_status ORDER BY creator_status","{'grain': '分组汇总', 'source_tables': ['creators'], 'filters': [{'phrase': '新星级创作者', 'field': 'creators.creator_level', 'operator': '=', 'value': '新星'}], 'metrics': ['creator_count'], 'output_columns': ['creator_status', 'creator_count']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CONTENT_OPS-121,content_ops,标签热点,热点加热,简单,True,流量加热系数至少1.0的热点内容数量和平均排名；请返回最低流量加热系数、内容数量、平均排名；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均；按核心指标从高到低展示。,0.6666666666666666,0.6666666666666666,1238.399,True,1617.839,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT MIN(traffic_boost) AS min_traffic_boost, COUNT(*) AS content_count, AVG(ranking) AS avg_ranking FROM topic_content_relations WHERE traffic_boost >= 1.0 ORDER BY min_traffic_boost DESC LIMIT 1","{'grain': '单行汇总', 'source_tables': ['topic_content_relations'], 'filters': [{'phrase': '流量加热系数至少1.0', 'field': 'topic_content_relations.traffic_boost', 'operator': '>=', 'value': '1.0'}], 'metrics': ['min_traffic_boost', 'content_count', 'avg_ranking'], 'output_columns': ['min_traffic_boost', 'content_count', 'avg_ranking']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CONTENT_OPS-126,content_ops,审核举报,审核状态,简单,True,approved审核状态按风险类型分布；请返回风险类型、审核数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.75,1108.765,True,1628.328,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT risk_type, COUNT(*) AS audit_count FROM content_audits WHERE audit_status = 'approved' GROUP BY risk_type ORDER BY audit_count DESC","{'grain': '分组汇总', 'source_tables': ['content_audits'], 'filters': [{'phrase': 'approved审核状态', 'field': 'audit_status', 'operator': '=', 'value': 'approved'}], 'metrics': ['COUNT(*)'], 'output_columns': ['risk_type', 'audit_count']}",根据查询契约生成并执行只读SQL,,3,0,0,0,
+CONTENT_OPS-136,content_ops,审核举报,举报原因,中等,True,不感兴趣举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,2630.49,True,1657.003,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS content_category,
+  COUNT(cr.report_id) AS report_count
+FROM content_reports cr
+JOIN contents c ON cr.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cr.report_reason = '不感兴趣'
+GROUP BY cc.category_name
+ORDER BY report_count DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['content_reports', 'contents', 'content_categories'], 'filters': [{'phrase': '不感兴趣举报', 'field': 'content_reports.report_reason', 'operator': '=', 'value': '不感兴趣'}], 'metrics': ['COUNT(content_reports.report_id)'], 'output_columns': ['content_category', 'report_count']}",修正SQL中的表名引用，移除数据库前缀以适配DuckDB环境，保持查询逻辑不变。,,4,0,0,0,
+CONTENT_OPS-137,content_ops,审核举报,举报原因,中等,True,低俗内容举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.15,1052.674,True,1772.011,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS content_category,
+  COUNT(cr.report_id) AS report_count
+FROM content_reports cr
+JOIN contents c ON cr.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cr.report_reason = '低俗内容'
+GROUP BY cc.category_name
+ORDER BY report_count DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['content_reports', 'contents', 'content_categories'], 'filters': [{'phrase': '低俗内容举报', 'field': 'content_reports.report_reason', 'operator': '=', 'value': '低俗内容'}], 'metrics': ['COUNT(content_reports.report_id)'], 'output_columns': ['content_category', 'report_count']}",修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。,,4,0,0,0,
+CONTENT_OPS-138,content_ops,审核举报,举报原因,中等,True,侵权搬运举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。,1.0,0.1875,1291.164,True,1763.203,True,False,executed,结果一致（忽略列顺序和辅助列）,"SELECT 
+  cc.category_name AS ""内容分类"",
+  COUNT(cr.report_id) AS ""举报数量""
+FROM content_reports cr
+JOIN contents c ON cr.content_id = c.content_id
+JOIN content_categories cc ON c.category_id = cc.category_id
+WHERE cr.report_reason = '侵权搬运'
+GROUP BY cc.category_name
+ORDER BY ""举报数量"" DESC, cc.category_name ASC","{'grain': '分组汇总', 'source_tables': ['content_reports', 'contents', 'content_categories'], 'filters': [{'phrase': '侵权搬运', 'field': 'content_reports.report_reason', 'operator': '=', 'value': '侵权搬运'}], 'metrics': ['COUNT(content_reports.report_id)'], 'output_columns': ['内容分类', '举报数量']}",修正SQL中的表名引用，移除不存在的schema前缀，直接使用表名执行查询。,,4,0,0,0,

@@ -1,0 +1,13 @@
+﻿tag_id,tag_name,tag_type,enabled
+UT01,新用户,lifecycle,1
+UT02,高活跃,activity,1
+UT03,低活跃,activity,1
+UT04,流失风险,risk,1
+UT05,自然流量,channel,1
+UT06,付费流量,channel,1
+UT07,高互动,behavior,1
+UT08,深度观看,behavior,1
+UT09,内容探索型,preference,1
+UT10,垂类偏好,preference,1
+UT11,召回用户,lifecycle,1
+UT12,潜在创作者,identity,1

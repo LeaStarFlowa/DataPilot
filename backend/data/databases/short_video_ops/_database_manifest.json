@@ -1,0 +1,637 @@
+{
+  "database": "short_video_ops",
+  "scenario": "短视频平台用户增长、渠道投放与内容运营",
+  "seed": 20260829,
+  "data_range": {
+    "start": "2026-01-01",
+    "end": "2026-08-28"
+  },
+  "table_count": 41,
+  "total_rows": 722732,
+  "roles": {
+    "growth_ops": [
+      "users",
+      "user_profiles",
+      "user_devices",
+      "acquisition_channels",
+      "user_registrations",
+      "user_activations",
+      "user_daily_activity",
+      "user_retention",
+      "user_tags",
+      "user_tag_relations",
+      "user_sessions",
+      "user_lifecycle_snapshots",
+      "user_churn_events",
+      "recall_campaigns",
+      "recall_touches",
+      "recall_results",
+      "growth_daily_metrics",
+      "growth_targets"
+    ],
+    "channel_ops": [
+      "users",
+      "user_profiles",
+      "user_devices",
+      "acquisition_channels",
+      "user_registrations",
+      "user_activations",
+      "user_daily_activity",
+      "user_retention",
+      "ad_accounts",
+      "ad_campaigns",
+      "ad_creatives",
+      "ad_daily_stats",
+      "channel_attributions",
+      "channel_conversion_events",
+      "channel_targets",
+      "budget_adjustments"
+    ],
+    "content_ops": [
+      "users",
+      "user_profiles",
+      "user_tags",
+      "user_tag_relations",
+      "creators",
+      "creator_profiles",
+      "content_categories",
+      "contents",
+      "content_tags",
+      "content_tag_relations",
+      "video_exposures",
+      "video_plays",
+      "video_interactions",
+      "content_daily_metrics",
+      "creator_daily_metrics",
+      "content_audits",
+      "content_reports",
+      "trending_topics",
+      "topic_content_relations"
+    ]
+  },
+  "tables": {
+    "acquisition_channels": {
+      "description": "用户获客渠道",
+      "domain": "渠道投放",
+      "row_count": 10,
+      "columns": [
+        "channel_id",
+        "channel_name",
+        "channel_type",
+        "owner_team",
+        "enabled"
+      ]
+    },
+    "ad_accounts": {
+      "description": "广告投放账户",
+      "domain": "渠道投放",
+      "row_count": 8,
+      "columns": [
+        "ad_account_id",
+        "account_name",
+        "channel_id",
+        "account_status",
+        "currency"
+      ]
+    },
+    "ad_campaigns": {
+      "description": "广告投放计划",
+      "domain": "渠道投放",
+      "row_count": 100,
+      "columns": [
+        "ad_campaign_id",
+        "ad_campaign_name",
+        "ad_account_id",
+        "channel_id",
+        "objective",
+        "budget",
+        "start_date",
+        "end_date",
+        "status"
+      ]
+    },
+    "ad_creatives": {
+      "description": "广告创意素材",
+      "domain": "渠道投放",
+      "row_count": 408,
+      "columns": [
+        "creative_id",
+        "ad_campaign_id",
+        "creative_name",
+        "creative_type",
+        "creative_theme",
+        "creative_status"
+      ]
+    },
+    "ad_daily_stats": {
+      "description": "广告计划每日效果",
+      "domain": "渠道投放",
+      "row_count": 5978,
+      "columns": [
+        "ad_stat_id",
+        "ad_campaign_id",
+        "stat_date",
+        "impressions",
+        "clicks",
+        "conversions",
+        "spend",
+        "click_through_rate",
+        "cost_per_conversion"
+      ]
+    },
+    "budget_adjustments": {
+      "description": "投放预算调整记录",
+      "domain": "渠道投放",
+      "row_count": 700,
+      "columns": [
+        "adjustment_id",
+        "ad_campaign_id",
+        "adjusted_at",
+        "previous_budget",
+        "new_budget",
+        "adjustment_reason",
+        "operator_name"
+      ]
+    },
+    "channel_attributions": {
+      "description": "用户渠道归因结果",
+      "domain": "渠道投放",
+      "row_count": 5816,
+      "columns": [
+        "attribution_id",
+        "user_id",
+        "channel_id",
+        "ad_campaign_id",
+        "attribution_type",
+        "attributed_at",
+        "confidence_score"
+      ]
+    },
+    "channel_conversion_events": {
+      "description": "渠道转化事件",
+      "domain": "渠道投放",
+      "row_count": 9920,
+      "columns": [
+        "conversion_event_id",
+        "user_id",
+        "channel_id",
+        "ad_campaign_id",
+        "conversion_type",
+        "converted_at",
+        "conversion_value"
+      ]
+    },
+    "channel_targets": {
+      "description": "渠道月度投放目标",
+      "domain": "渠道投放",
+      "row_count": 32,
+      "columns": [
+        "channel_target_id",
+        "target_month",
+        "channel_id",
+        "spend_target",
+        "registration_target",
+        "activation_target",
+        "target_cpa"
+      ]
+    },
+    "content_audits": {
+      "description": "内容审核记录",
+      "domain": "内容运营",
+      "row_count": 8000,
+      "columns": [
+        "audit_id",
+        "content_id",
+        "audited_at",
+        "audit_status",
+        "risk_type",
+        "review_mode"
+      ]
+    },
+    "content_categories": {
+      "description": "内容分类",
+      "domain": "内容运营",
+      "row_count": 12,
+      "columns": [
+        "category_id",
+        "category_name",
+        "category_level",
+        "enabled"
+      ]
+    },
+    "content_daily_metrics": {
+      "description": "内容日运营指标",
+      "domain": "内容运营",
+      "row_count": 9000,
+      "columns": [
+        "content_metric_id",
+        "metric_date",
+        "content_id",
+        "impressions",
+        "play_count",
+        "watch_seconds",
+        "interaction_count",
+        "play_rate",
+        "completion_rate"
+      ]
+    },
+    "content_reports": {
+      "description": "用户内容举报记录",
+      "domain": "内容运营",
+      "row_count": 5000,
+      "columns": [
+        "report_id",
+        "user_id",
+        "content_id",
+        "report_reason",
+        "reported_at",
+        "process_status"
+      ]
+    },
+    "content_tag_relations": {
+      "description": "内容标签关系",
+      "domain": "内容运营",
+      "row_count": 37475,
+      "columns": [
+        "content_tag_relation_id",
+        "content_id",
+        "content_tag_id",
+        "confidence_score",
+        "source"
+      ]
+    },
+    "content_tags": {
+      "description": "内容标签定义",
+      "domain": "内容运营",
+      "row_count": 18,
+      "columns": [
+        "content_tag_id",
+        "tag_name",
+        "tag_type",
+        "enabled"
+      ]
+    },
+    "contents": {
+      "description": "短视频内容主表",
+      "domain": "内容运营",
+      "row_count": 15000,
+      "columns": [
+        "content_id",
+        "creator_id",
+        "category_id",
+        "content_title",
+        "duration_seconds",
+        "published_at",
+        "content_status",
+        "visibility",
+        "quality_score"
+      ]
+    },
+    "creator_daily_metrics": {
+      "description": "创作者日运营指标",
+      "domain": "内容运营",
+      "row_count": 1800,
+      "columns": [
+        "creator_metric_id",
+        "metric_date",
+        "creator_id",
+        "play_count",
+        "interaction_count",
+        "published_count",
+        "interaction_rate"
+      ]
+    },
+    "creator_profiles": {
+      "description": "创作者画像",
+      "domain": "内容运营",
+      "row_count": 1800,
+      "columns": [
+        "creator_id",
+        "primary_category_id",
+        "follower_count",
+        "published_content_count",
+        "quality_score",
+        "creator_type",
+        "snapshot_date"
+      ]
+    },
+    "creators": {
+      "description": "内容创作者主表",
+      "domain": "内容运营",
+      "row_count": 1800,
+      "columns": [
+        "creator_id",
+        "creator_name",
+        "creator_level",
+        "joined_at",
+        "creator_status"
+      ]
+    },
+    "growth_daily_metrics": {
+      "description": "增长运营日指标",
+      "domain": "用户增长",
+      "row_count": 2400,
+      "columns": [
+        "metric_id",
+        "metric_date",
+        "channel_id",
+        "new_users",
+        "activated_users",
+        "day1_retained_users",
+        "day7_retained_users",
+        "daily_active_users"
+      ]
+    },
+    "growth_targets": {
+      "description": "增长运营月度目标",
+      "domain": "用户增长",
+      "row_count": 80,
+      "columns": [
+        "target_id",
+        "target_month",
+        "channel_id",
+        "new_user_target",
+        "activation_rate_target",
+        "day7_retention_target",
+        "owner_name"
+      ]
+    },
+    "recall_campaigns": {
+      "description": "用户召回活动",
+      "domain": "用户增长",
+      "row_count": 24,
+      "columns": [
+        "recall_campaign_id",
+        "campaign_name",
+        "target_segment",
+        "touch_channel",
+        "start_date",
+        "end_date",
+        "status"
+      ]
+    },
+    "recall_results": {
+      "description": "召回效果记录",
+      "domain": "用户增长",
+      "row_count": 9000,
+      "columns": [
+        "recall_result_id",
+        "touch_id",
+        "user_id",
+        "recalled",
+        "returned_at",
+        "active_days_after_recall"
+      ]
+    },
+    "recall_touches": {
+      "description": "召回触达记录",
+      "domain": "用户增长",
+      "row_count": 9000,
+      "columns": [
+        "touch_id",
+        "recall_campaign_id",
+        "user_id",
+        "touch_channel",
+        "sent_at",
+        "delivered",
+        "clicked"
+      ]
+    },
+    "topic_content_relations": {
+      "description": "热点话题内容关系",
+      "domain": "内容运营",
+      "row_count": 4500,
+      "columns": [
+        "topic_content_id",
+        "topic_id",
+        "content_id",
+        "joined_at",
+        "ranking",
+        "traffic_boost"
+      ]
+    },
+    "trending_topics": {
+      "description": "平台热点话题",
+      "domain": "内容运营",
+      "row_count": 120,
+      "columns": [
+        "topic_id",
+        "topic_name",
+        "topic_type",
+        "start_date",
+        "end_date",
+        "heat_score",
+        "topic_status"
+      ]
+    },
+    "user_activations": {
+      "description": "新用户激活结果",
+      "domain": "用户增长",
+      "row_count": 12000,
+      "columns": [
+        "activation_id",
+        "registration_id",
+        "user_id",
+        "is_activated",
+        "activated_at",
+        "activation_seconds",
+        "activation_rule"
+      ]
+    },
+    "user_churn_events": {
+      "description": "用户流失识别记录",
+      "domain": "用户增长",
+      "row_count": 7149,
+      "columns": [
+        "churn_event_id",
+        "user_id",
+        "identified_date",
+        "churn_level",
+        "inactive_days",
+        "churn_reason"
+      ]
+    },
+    "user_daily_activity": {
+      "description": "用户每日活跃汇总",
+      "domain": "用户增长",
+      "row_count": 86017,
+      "columns": [
+        "activity_id",
+        "user_id",
+        "activity_date",
+        "active_minutes",
+        "session_count",
+        "play_count",
+        "interaction_count",
+        "is_valid_active"
+      ]
+    },
+    "user_devices": {
+      "description": "用户常用设备",
+      "domain": "用户增长",
+      "row_count": 13985,
+      "columns": [
+        "device_id",
+        "user_id",
+        "device_type",
+        "device_level",
+        "app_version",
+        "first_seen_at"
+      ]
+    },
+    "user_lifecycle_snapshots": {
+      "description": "用户生命周期快照",
+      "domain": "用户增长",
+      "row_count": 12000,
+      "columns": [
+        "snapshot_id",
+        "user_id",
+        "snapshot_date",
+        "lifecycle_stage",
+        "active_days",
+        "days_since_last_active",
+        "engagement_score"
+      ]
+    },
+    "user_profiles": {
+      "description": "用户画像信息",
+      "domain": "用户增长",
+      "row_count": 12000,
+      "columns": [
+        "user_id",
+        "gender",
+        "age_group",
+        "region",
+        "province",
+        "city",
+        "city_tier",
+        "primary_interest",
+        "updated_at"
+      ]
+    },
+    "user_registrations": {
+      "description": "用户注册记录",
+      "domain": "用户增长",
+      "row_count": 12000,
+      "columns": [
+        "registration_id",
+        "user_id",
+        "channel_id",
+        "registered_at",
+        "registration_method",
+        "platform",
+        "registration_status"
+      ]
+    },
+    "user_retention": {
+      "description": "用户留存里程碑",
+      "domain": "用户增长",
+      "row_count": 57334,
+      "columns": [
+        "retention_id",
+        "user_id",
+        "channel_id",
+        "registration_date",
+        "retention_day",
+        "observation_date",
+        "is_retained"
+      ]
+    },
+    "user_sessions": {
+      "description": "用户访问会话",
+      "domain": "用户增长",
+      "row_count": 151094,
+      "columns": [
+        "session_id",
+        "user_id",
+        "device_id",
+        "channel_id",
+        "started_at",
+        "ended_at",
+        "duration_seconds",
+        "landing_page"
+      ]
+    },
+    "user_tag_relations": {
+      "description": "用户标签关系",
+      "domain": "用户增长",
+      "row_count": 24000,
+      "columns": [
+        "relation_id",
+        "user_id",
+        "tag_id",
+        "tag_score",
+        "assigned_at",
+        "source"
+      ]
+    },
+    "user_tags": {
+      "description": "用户标签定义",
+      "domain": "用户增长",
+      "row_count": 12,
+      "columns": [
+        "tag_id",
+        "tag_name",
+        "tag_type",
+        "enabled"
+      ]
+    },
+    "users": {
+      "description": "平台用户主表",
+      "domain": "用户增长",
+      "row_count": 12000,
+      "columns": [
+        "user_id",
+        "nickname",
+        "register_channel_id",
+        "registered_at",
+        "account_status",
+        "register_platform"
+      ]
+    },
+    "video_exposures": {
+      "description": "视频曝光明细",
+      "domain": "内容运营",
+      "row_count": 140000,
+      "columns": [
+        "exposure_id",
+        "user_id",
+        "content_id",
+        "position_name",
+        "exposed_at",
+        "clicked",
+        "recommendation_source"
+      ]
+    },
+    "video_interactions": {
+      "description": "视频互动明细",
+      "domain": "内容运营",
+      "row_count": 6443,
+      "columns": [
+        "interaction_id",
+        "play_id",
+        "user_id",
+        "content_id",
+        "interaction_type",
+        "interacted_at",
+        "valid_interaction"
+      ]
+    },
+    "video_plays": {
+      "description": "视频播放明细",
+      "domain": "内容运营",
+      "row_count": 48697,
+      "columns": [
+        "play_id",
+        "exposure_id",
+        "user_id",
+        "content_id",
+        "played_at",
+        "watch_seconds",
+        "completion_rate",
+        "completed",
+        "network_type"
+      ]
+    }
+  }
+}

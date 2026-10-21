@@ -1,0 +1,3641 @@
+{
+  "summary": {
+    "mode": "live",
+    "case_count": 49,
+    "schema_recall": 0.929932,
+    "schema_precision": 0.164574,
+    "sql_execution_success_rate": 1.0,
+    "average_execution_ms": 1637.483,
+    "p95_execution_ms": 1763.203,
+    "result_accuracy": 0.918367,
+    "column_name_match_rate": 0.122449,
+    "clarification_count": 0,
+    "error_count": 0,
+    "timeout_count": 0,
+    "connection_error_count": 0,
+    "model_request_attempt_count": 190,
+    "model_retry_count": 2,
+    "model_timeout_event_count": 0,
+    "model_connection_error_event_count": 2,
+    "result_accuracy_given_executed_sql": 0.918367
+  },
+  "cases": [
+    {
+      "case_id": "GROWTH_OPS-001",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "时间趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查询2026年每个月的新增用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.new_users"
+      ],
+      "schema_recall": 0.5,
+      "schema_precision": 0.05,
+      "schema_true_positive": 1,
+      "retrieval_ms": 1001.943,
+      "retrieved_fields": [
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.growth_targets.new_user_target",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.growth_daily_metrics.daily_active_users",
+        "short_video_ops.user_profiles.updated_at",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.growth_daily_metrics.day1_retained_users",
+        "short_video_ops.growth_daily_metrics.day7_retained_users",
+        "short_video_ops.users.nickname",
+        "short_video_ops.user_lifecycle_snapshots.lifecycle_stage",
+        "short_video_ops.user_daily_activity.session_count",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_daily_activity.interaction_count",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active"
+      ],
+      "generated_sql": "SELECT\n  STRFTIME(metric_date, '%Y-%m') AS month,\n  SUM(new_users) AS new_users\nFROM growth_daily_metrics\nWHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'\nGROUP BY STRFTIME(metric_date, '%Y-%m')\nORDER BY month ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1639.777,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "growth_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026年",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": "['2026-01-01', '2027-01-01')"
+          }
+        ],
+        "metrics": [
+          "SUM(new_users)"
+        ],
+        "output_columns": [
+          "month",
+          "new_users"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-002",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "时间趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查询2026年每个月的激活用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.activated_users"
+      ],
+      "schema_recall": 0.5,
+      "schema_precision": 0.05,
+      "schema_true_positive": 1,
+      "retrieval_ms": 1070.15,
+      "retrieved_fields": [
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.users.user_id",
+        "short_video_ops.growth_daily_metrics.daily_active_users",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.users.account_status",
+        "short_video_ops.user_lifecycle_snapshots.active_days",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active",
+        "short_video_ops.user_daily_activity.is_valid_active",
+        "short_video_ops.user_daily_activity.session_count"
+      ],
+      "generated_sql": "SELECT\n  STRFTIME(activated_at, '%Y-%m') AS month,\n  SUM(CASE WHEN is_activated = 1 THEN 1 ELSE 0 END) AS activated_users\nFROM user_activations\nWHERE activated_at >= '2026-01-01' AND activated_at < '2027-01-01'\nGROUP BY STRFTIME(activated_at, '%Y-%m')\nORDER BY month ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1620.679,
+      "result_correct": false,
+      "column_match": false,
+      "comparison_reason": "返回数据与标准结果不一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "user_activations"
+        ],
+        "filters": [
+          {
+            "phrase": "2026年",
+            "field": "activated_at",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2027-01-01'"
+          }
+        ],
+        "metrics": [
+          "activated_users"
+        ],
+        "output_columns": [
+          "month",
+          "activated_users"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-003",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "时间趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查询2026年每个月的次日留存用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.day1_retained_users"
+      ],
+      "schema_recall": 0.5,
+      "schema_precision": 0.05,
+      "schema_true_positive": 1,
+      "retrieval_ms": 1148.561,
+      "retrieved_fields": [
+        "short_video_ops.growth_daily_metrics.day1_retained_users",
+        "short_video_ops.user_retention.observation_date",
+        "short_video_ops.user_retention.registration_date",
+        "short_video_ops.user_retention.retention_day",
+        "short_video_ops.growth_daily_metrics.day7_retained_users",
+        "short_video_ops.user_retention.is_retained",
+        "short_video_ops.user_retention.user_id",
+        "short_video_ops.growth_targets.day7_retention_target",
+        "short_video_ops.user_retention.retention_id",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active",
+        "short_video_ops.growth_daily_metrics.daily_active_users",
+        "short_video_ops.user_retention.channel_id",
+        "short_video_ops.user_lifecycle_snapshots.active_days",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.users.user_id",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.user_lifecycle_snapshots.lifecycle_stage"
+      ],
+      "generated_sql": "SELECT \n    STRFTIME(metric_date, '%Y-%m') AS month,\n    SUM(day1_retained_users) AS day1_retained_users\nFROM growth_daily_metrics\nWHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'\nGROUP BY STRFTIME(metric_date, '%Y-%m')\nORDER BY month ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1542.503,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "growth_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026年",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2027-01-01'"
+          }
+        ],
+        "metrics": [
+          "day1_retained_users"
+        ],
+        "output_columns": [
+          "month",
+          "day1_retained_users"
+        ]
+      },
+      "agent_reason": "修正SQL中的字段名，将不存在的 registration_date 替换为 growth_daily_metrics 表中实际存在的时间字段 metric_date，以查询2026年每月的次日留存用户数。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-004",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "时间趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查询2026年每个月的七日留存用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.day7_retained_users"
+      ],
+      "schema_recall": 0.5,
+      "schema_precision": 0.07692307692307693,
+      "schema_true_positive": 1,
+      "retrieval_ms": 1087.786,
+      "retrieved_fields": [
+        "short_video_ops.growth_daily_metrics.day7_retained_users",
+        "short_video_ops.user_retention.observation_date",
+        "short_video_ops.user_retention.registration_date",
+        "short_video_ops.user_retention.retention_day",
+        "short_video_ops.growth_targets.day7_retention_target",
+        "short_video_ops.growth_daily_metrics.day1_retained_users",
+        "short_video_ops.user_retention.is_retained",
+        "short_video_ops.user_retention.user_id",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.user_retention.retention_id",
+        "short_video_ops.user_retention.channel_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_lifecycle_snapshots.active_days"
+      ],
+      "generated_sql": "SELECT\n  STRFTIME(metric_date, '%Y-%m') AS month,\n  SUM(day7_retained_users) AS day7_retained_users\nFROM growth_daily_metrics\nWHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'\nGROUP BY STRFTIME(metric_date, '%Y-%m')\nORDER BY month ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1578.248,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "growth_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026年",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2027-01-01'"
+          }
+        ],
+        "metrics": [
+          "day7_retained_users"
+        ],
+        "output_columns": [
+          "month",
+          "day7_retained_users"
+        ]
+      },
+      "agent_reason": "修正SQL中的日期字段名，从observation_date改为growth_daily_metrics表中实际存在的metric_date，以查询2026年每月的七日留存用户数。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-005",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "时间趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查询2026年每个月的日活用户数；请返回月份、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.daily_active_users"
+      ],
+      "schema_recall": 0.5,
+      "schema_precision": 0.05,
+      "schema_true_positive": 1,
+      "retrieval_ms": 1067.929,
+      "retrieved_fields": [
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.growth_daily_metrics.daily_active_users",
+        "short_video_ops.user_lifecycle_snapshots.snapshot_date",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_daily_activity.is_valid_active",
+        "short_video_ops.user_daily_activity.interaction_count",
+        "short_video_ops.user_daily_activity.user_id",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.user_daily_activity.session_count",
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.growth_daily_metrics.day1_retained_users",
+        "short_video_ops.user_daily_activity.activity_id",
+        "short_video_ops.user_profiles.updated_at",
+        "short_video_ops.growth_daily_metrics.day7_retained_users",
+        "short_video_ops.users.user_id",
+        "short_video_ops.growth_targets.new_user_target",
+        "short_video_ops.user_activations.activated_at"
+      ],
+      "generated_sql": "SELECT\n  STRFTIME(metric_date, '%Y-%m') AS month,\n  SUM(daily_active_users) AS daily_active_users\nFROM growth_daily_metrics\nWHERE metric_date >= '2026-01-01' AND metric_date < '2027-01-01'\nGROUP BY STRFTIME(metric_date, '%Y-%m')\nORDER BY month ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1590.69,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "growth_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026年",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2027-01-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(daily_active_users)"
+        ],
+        "output_columns": [
+          "month",
+          "daily_active_users"
+        ]
+      },
+      "agent_reason": "修正字段名：growth_daily_metrics 表中日期字段为 metric_date 而非 activity_date。按月份聚合日活用户数并求和，按时间升序排列。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-006",
+      "scenario": "growth_ops",
+      "category": "趋势汇总",
+      "query_type": "日趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "查看2026-01每天的新增用户数变化；请返回指标日期、指标值；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.new_users"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1359.191,
+      "retrieved_fields": [
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.growth_daily_metrics.daily_active_users",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.growth_daily_metrics.day1_retained_users",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.growth_targets.new_user_target",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.growth_daily_metrics.day7_retained_users",
+        "short_video_ops.user_daily_activity.interaction_count",
+        "short_video_ops.user_daily_activity.user_id",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_daily_activity.session_count",
+        "short_video_ops.user_profiles.updated_at",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active",
+        "short_video_ops.user_lifecycle_snapshots.snapshot_date",
+        "short_video_ops.user_lifecycle_snapshots.active_days"
+      ],
+      "generated_sql": "SELECT metric_date, SUM(new_users) AS new_users FROM growth_daily_metrics WHERE metric_date >= '2026-01-01' AND metric_date < '2026-02-01' GROUP BY metric_date ORDER BY metric_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1563.941,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "growth_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-01",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2026-02-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(new_users)"
+        ],
+        "output_columns": [
+          "metric_date",
+          "new_users"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-026",
+      "scenario": "growth_ops",
+      "category": "渠道与拉新",
+      "query_type": "分组排行",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-01各获客渠道新增用户数排名；请返回渠道名称、新增用户数；聚合口径：可加总指标按当前查询粒度求和；按核心指标从高到低展示。",
+      "gold_fields": [
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.acquisition_channels.channel_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1183.578,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.growth_daily_metrics.new_users",
+        "short_video_ops.acquisition_channels.channel_type",
+        "short_video_ops.acquisition_channels.owner_team",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.growth_daily_metrics.channel_id",
+        "short_video_ops.growth_daily_metrics.metric_date",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.growth_targets.new_user_target",
+        "short_video_ops.user_sessions.channel_id",
+        "short_video_ops.user_tag_relations.assigned_at",
+        "short_video_ops.user_sessions.started_at",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.users.user_id",
+        "short_video_ops.growth_targets.channel_id",
+        "short_video_ops.user_activations.activated_at"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  SUM(gdm.new_users) AS new_users\nFROM growth_daily_metrics gdm\nJOIN acquisition_channels ac ON gdm.channel_id = ac.channel_id\nWHERE gdm.metric_date >= '2026-01-01' AND gdm.metric_date < '2026-02-01'\nGROUP BY ac.channel_name\nORDER BY new_users DESC, ac.channel_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1584.948,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "growth_daily_metrics",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-01",
+            "field": "growth_daily_metrics.metric_date",
+            "operator": "范围",
+            "value": ">= '2026-01-01' AND < '2026-02-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(new_users)"
+        ],
+        "output_columns": [
+          "channel_name",
+          "new_users"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-061",
+      "scenario": "growth_ops",
+      "category": "激活与漏斗",
+      "query_type": "耗时分析",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "自然推荐渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_seconds"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.23076923076923078,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1047.363,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_tags.tag_name"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  AVG(ua.activation_seconds) AS avg_activation_seconds\nFROM user_activations ua\nJOIN users u ON ua.user_id = u.user_id\nJOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id\nWHERE ua.is_activated = 1\n  AND ac.channel_name = '自然推荐'\nGROUP BY ac.channel_name",
+      "sql_execution_success": true,
+      "execution_ms": 1675.711,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "user_activations",
+          "users",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "激活用户",
+            "field": "user_activations.is_activated",
+            "operator": "=",
+            "value": 1
+          },
+          {
+            "phrase": "自然推荐渠道",
+            "field": "acquisition_channels.channel_name",
+            "operator": "=",
+            "value": "自然推荐"
+          }
+        ],
+        "metrics": [
+          "AVG(user_activations.activation_seconds)"
+        ],
+        "output_columns": [
+          "channel_name",
+          "avg_activation_seconds"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，DuckDB中直接引用表名即可，无需schema前缀。保持查询口径不变：统计自然推荐渠道下已激活用户的平均激活耗时。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-062",
+      "scenario": "growth_ops",
+      "category": "激活与漏斗",
+      "query_type": "耗时分析",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "应用商店渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_seconds"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.3,
+      "schema_true_positive": 3,
+      "retrieval_ms": 999.951,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.users.user_id"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  AVG(ua.activation_seconds) AS avg_activation_seconds\nFROM user_activations ua\nJOIN users u ON ua.user_id = u.user_id\nJOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id\nWHERE ua.is_activated = 1\n  AND ac.channel_name = '应用商店'\nGROUP BY ac.channel_name",
+      "sql_execution_success": true,
+      "execution_ms": 1628.148,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "user_activations",
+          "users",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "激活用户",
+            "field": "user_activations.is_activated",
+            "operator": "=",
+            "value": 1
+          },
+          {
+            "phrase": "应用商店渠道",
+            "field": "acquisition_channels.channel_name",
+            "operator": "=",
+            "value": "应用商店"
+          }
+        ],
+        "metrics": [
+          "AVG(user_activations.activation_seconds)"
+        ],
+        "output_columns": [
+          "channel_name",
+          "avg_activation_seconds"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，移除不存在的schema前缀以解决Catalog Error。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-063",
+      "scenario": "growth_ops",
+      "category": "激活与漏斗",
+      "query_type": "耗时分析",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "信息流广告渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_seconds"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.25,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1005.577,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.growth_daily_metrics.activated_users"
+      ],
+      "generated_sql": "SELECT \n  ac.channel_name,\n  AVG(ua.activation_seconds) AS avg_activation_seconds\nFROM user_activations ua\nJOIN users u ON ua.user_id = u.user_id\nJOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id\nWHERE ua.is_activated = 1\n  AND ac.channel_name = '信息流广告'\nGROUP BY ac.channel_name",
+      "sql_execution_success": true,
+      "execution_ms": 1625.597,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "user_activations",
+          "users",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "激活用户",
+            "field": "user_activations.is_activated",
+            "operator": "=",
+            "value": "1"
+          },
+          {
+            "phrase": "信息流广告渠道",
+            "field": "acquisition_channels.channel_name",
+            "operator": "=",
+            "value": "信息流广告"
+          }
+        ],
+        "metrics": [
+          "avg_activation_seconds"
+        ],
+        "output_columns": [
+          "channel_name",
+          "avg_activation_seconds"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀错误，移除不存在的schema前缀，保持查询逻辑不变。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-064",
+      "scenario": "growth_ops",
+      "category": "激活与漏斗",
+      "query_type": "耗时分析",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "搜索广告渠道激活用户的平均激活耗时；请返回渠道名称、平均激活耗时；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_seconds"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.25,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1084.446,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_activations.registration_id"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  AVG(ua.activation_seconds) AS avg_activation_seconds\nFROM user_activations ua\nJOIN users u ON ua.user_id = u.user_id\nJOIN acquisition_channels ac ON u.register_channel_id = ac.channel_id\nWHERE ua.is_activated = 1\n  AND ac.channel_name = '搜索广告'\nGROUP BY ac.channel_name",
+      "sql_execution_success": true,
+      "execution_ms": 1638.782,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "user_activations",
+          "users",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "激活用户",
+            "field": "user_activations.is_activated",
+            "operator": "=",
+            "value": 1
+          },
+          {
+            "phrase": "搜索广告渠道",
+            "field": "acquisition_channels.channel_name",
+            "operator": "=",
+            "value": "搜索广告"
+          }
+        ],
+        "metrics": [
+          "平均激活耗时"
+        ],
+        "output_columns": [
+          "channel_name",
+          "avg_activation_seconds"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，移除不存在的schema前缀以解决Catalog Error。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-066",
+      "scenario": "growth_ops",
+      "category": "激活与漏斗",
+      "query_type": "规则分布",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "按激活规则统计用户数，重点查看观看3条视频；请返回激活规则、用户数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activation_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1016.687,
+      "retrieved_fields": [
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.growth_daily_metrics.activated_users",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.users.user_id",
+        "short_video_ops.users.account_status",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.users.nickname",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.user_daily_activity.user_id",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active",
+        "short_video_ops.user_daily_activity.is_valid_active",
+        "short_video_ops.user_daily_activity.activity_id",
+        "short_video_ops.user_profiles.user_id"
+      ],
+      "generated_sql": "SELECT \n  activation_rule,\n  COUNT(*) AS user_count\nFROM user_activations\nGROUP BY activation_rule\nORDER BY \n  CASE WHEN activation_rule = '观看3条视频' THEN 0 ELSE 1 END,\n  user_count DESC",
+      "sql_execution_success": true,
+      "execution_ms": 1614.571,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "user_activations"
+        ],
+        "filters": [],
+        "metrics": [
+          "用户数"
+        ],
+        "output_columns": [
+          "activation_rule",
+          "user_count"
+        ]
+      },
+      "agent_reason": "修正表名引用，移除不存在的schema前缀，直接查询user_activations表并按激活规则分组统计用户数，重点查看观看3条视频。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-086",
+      "scenario": "growth_ops",
+      "category": "留存与活跃",
+      "query_type": "活跃质量",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "华东用户平均活跃时长和会话次数；请返回地区、平均活跃时长、平均会话次数；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.user_profiles.region",
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.user_daily_activity.session_count"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1055.228,
+      "retrieved_fields": [
+        "short_video_ops.user_daily_activity.active_minutes",
+        "short_video_ops.user_daily_activity.session_count",
+        "short_video_ops.user_profiles.region",
+        "short_video_ops.user_daily_activity.is_valid_active",
+        "short_video_ops.user_daily_activity.user_id",
+        "short_video_ops.user_sessions.duration_seconds",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.user_daily_activity.activity_id",
+        "short_video_ops.user_sessions.ended_at",
+        "short_video_ops.user_daily_activity.interaction_count",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_sessions.started_at",
+        "short_video_ops.user_lifecycle_snapshots.days_since_last_active",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.user_sessions.user_id",
+        "short_video_ops.users.account_status",
+        "short_video_ops.user_sessions.landing_page",
+        "short_video_ops.user_sessions.session_id",
+        "short_video_ops.user_sessions.channel_id"
+      ],
+      "generated_sql": "SELECT\n  up.region,\n  AVG(uda.active_minutes) AS avg_active_minutes,\n  AVG(uda.session_count) AS avg_session_count\nFROM user_daily_activity uda\nJOIN user_profiles up ON uda.user_id = up.user_id\nWHERE up.region = '华东'\nGROUP BY up.region",
+      "sql_execution_success": true,
+      "execution_ms": 1699.297,
+      "result_correct": true,
+      "column_match": true,
+      "comparison_reason": "结果一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "user_daily_activity",
+          "user_profiles"
+        ],
+        "filters": [
+          {
+            "phrase": "华东用户",
+            "field": "user_profiles.region",
+            "operator": "=",
+            "value": "华东"
+          }
+        ],
+        "metrics": [
+          "平均活跃时长",
+          "平均会话次数"
+        ],
+        "output_columns": [
+          "region",
+          "avg_active_minutes",
+          "avg_session_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-101",
+      "scenario": "growth_ops",
+      "category": "用户分层与流失",
+      "query_type": "画像分布",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "用户按地区的分布；请返回地区、用户数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.user_profiles.region",
+        "short_video_ops.user_profiles.user_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1332.018,
+      "retrieved_fields": [
+        "short_video_ops.user_profiles.region",
+        "short_video_ops.user_profiles.province",
+        "short_video_ops.user_profiles.city",
+        "short_video_ops.user_profiles.city_tier",
+        "short_video_ops.users.user_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.user_daily_activity.user_id",
+        "short_video_ops.users.nickname",
+        "short_video_ops.users.register_platform",
+        "short_video_ops.recall_results.user_id",
+        "short_video_ops.user_profiles.user_id",
+        "short_video_ops.users.account_status",
+        "short_video_ops.user_devices.user_id",
+        "short_video_ops.user_registrations.user_id",
+        "short_video_ops.user_lifecycle_snapshots.user_id",
+        "short_video_ops.user_devices.device_type",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_devices.device_level",
+        "short_video_ops.user_lifecycle_snapshots.lifecycle_stage",
+        "short_video_ops.users.registered_at"
+      ],
+      "generated_sql": "SELECT user_profiles.region AS region, COUNT(DISTINCT users.user_id) AS user_count FROM users JOIN user_profiles ON users.user_id = user_profiles.user_id GROUP BY user_profiles.region ORDER BY user_count DESC",
+      "sql_execution_success": true,
+      "execution_ms": 1654.064,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "users",
+          "user_profiles"
+        ],
+        "filters": [],
+        "metrics": [
+          "用户数"
+        ],
+        "output_columns": [
+          "region",
+          "user_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询数据库中的表。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-131",
+      "scenario": "growth_ops",
+      "category": "召回与目标",
+      "query_type": "活动效果",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "面向沉默7天的召回活动效果排名；请返回活动名称、触达数量、召回率；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母；按核心指标从高到低展示。",
+      "gold_fields": [
+        "short_video_ops.recall_campaigns.target_segment",
+        "short_video_ops.recall_campaigns.campaign_name",
+        "short_video_ops.recall_results.recalled"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1035.726,
+      "retrieved_fields": [
+        "short_video_ops.recall_campaigns.campaign_name",
+        "short_video_ops.recall_campaigns.recall_campaign_id",
+        "short_video_ops.recall_campaigns.target_segment",
+        "short_video_ops.recall_touches.recall_campaign_id",
+        "short_video_ops.recall_touches.delivered",
+        "short_video_ops.recall_campaigns.touch_channel",
+        "short_video_ops.recall_touches.clicked",
+        "short_video_ops.recall_touches.touch_channel",
+        "short_video_ops.recall_touches.sent_at",
+        "short_video_ops.recall_results.touch_id",
+        "short_video_ops.recall_touches.user_id",
+        "short_video_ops.recall_results.user_id",
+        "short_video_ops.recall_touches.touch_id",
+        "short_video_ops.recall_campaigns.status",
+        "short_video_ops.recall_results.recall_result_id",
+        "short_video_ops.recall_campaigns.start_date",
+        "short_video_ops.recall_campaigns.end_date",
+        "short_video_ops.recall_results.recalled",
+        "short_video_ops.recall_results.active_days_after_recall",
+        "short_video_ops.recall_results.returned_at"
+      ],
+      "generated_sql": "SELECT \n  rc.campaign_name,\n  COUNT(rt.touch_id) AS touch_count,\n  SUM(rr.recalled) / NULLIF(COUNT(rt.touch_id), 0) AS recall_rate\nFROM recall_campaigns rc\nJOIN recall_touches rt ON rc.recall_campaign_id = rt.recall_campaign_id\nLEFT JOIN recall_results rr ON rt.touch_id = rr.touch_id\nWHERE rc.target_segment = '沉默7天'\nGROUP BY rc.campaign_name\nORDER BY recall_rate DESC, rc.campaign_name ASC\nLIMIT 200",
+      "sql_execution_success": true,
+      "execution_ms": 1592.134,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "recall_campaigns",
+          "recall_touches",
+          "recall_results"
+        ],
+        "filters": [
+          {
+            "phrase": "面向沉默7天的召回活动",
+            "field": "recall_campaigns.target_segment",
+            "operator": "=",
+            "value": "沉默7天"
+          }
+        ],
+        "metrics": [
+          "触达数量",
+          "召回率"
+        ],
+        "output_columns": [
+          "campaign_name",
+          "touch_count",
+          "recall_rate"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，保持查询逻辑不变。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "GROWTH_OPS-149",
+      "scenario": "growth_ops",
+      "category": "召回与目标",
+      "query_type": "目标差距",
+      "difficulty": "复杂",
+      "classic": true,
+      "query": "2026-04各渠道激活率实际值与目标差距；请返回渠道名称、实际比率、激活率目标、目标差距；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母。",
+      "gold_fields": [
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.growth_targets.activation_rate_target",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.acquisition_channels.channel_name"
+      ],
+      "schema_recall": 0.8,
+      "schema_precision": 0.21052631578947367,
+      "schema_true_positive": 4,
+      "retrieval_ms": 1619.534,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.growth_targets.activation_rate_target",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.growth_targets.channel_id",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.acquisition_channels.channel_type",
+        "short_video_ops.acquisition_channels.owner_team",
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.growth_daily_metrics.channel_id",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.user_sessions.channel_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.user_sessions.ended_at"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  ROUND(CAST(SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) AS DOUBLE) / NULLIF(COUNT(ua.user_id), 0), 4) AS actual_activation_rate,\n  gt.activation_rate_target,\n  ROUND(CAST(SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) AS DOUBLE) / NULLIF(COUNT(ua.user_id), 0), 4) - gt.activation_rate_target AS target_gap\nFROM acquisition_channels ac\nJOIN users u ON ac.channel_id = u.register_channel_id\nJOIN user_activations ua ON u.user_id = ua.user_id\nJOIN growth_targets gt ON ac.channel_id = gt.channel_id\nWHERE ua.activated_at >= '2026-04-01' AND ua.activated_at < '2026-05-01'\n  AND gt.target_month = '2026-04'\nGROUP BY ac.channel_name, gt.activation_rate_target\nORDER BY target_gap DESC, ac.channel_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1655.531,
+      "result_correct": false,
+      "column_match": false,
+      "comparison_reason": "返回数据与标准结果不一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "acquisition_channels",
+          "users",
+          "user_activations",
+          "growth_targets"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-04",
+            "field": "ua.activated_at",
+            "operator": "范围",
+            "value": "['2026-04-01', '2026-05-01')"
+          },
+          {
+            "phrase": "2026-04",
+            "field": "gt.target_month",
+            "operator": "=",
+            "value": "2026-04"
+          }
+        ],
+        "metrics": [
+          "actual_activation_rate",
+          "activation_rate_target",
+          "target_gap"
+        ],
+        "output_columns": [
+          "channel_name",
+          "actual_activation_rate",
+          "activation_rate_target",
+          "target_gap"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，移除不存在的schema名称，保持查询逻辑不变。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 1,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 1
+    },
+    {
+      "case_id": "GROWTH_OPS-150",
+      "scenario": "growth_ops",
+      "category": "召回与目标",
+      "query_type": "目标差距",
+      "difficulty": "复杂",
+      "classic": true,
+      "query": "2026-05各渠道激活率实际值与目标差距；请返回渠道名称、实际比率、激活率目标、目标差距；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和，比率按汇总后的分子除以分母。",
+      "gold_fields": [
+        "short_video_ops.growth_targets.target_month",
+        "short_video_ops.growth_targets.activation_rate_target",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.acquisition_channels.channel_name"
+      ],
+      "schema_recall": 0.6,
+      "schema_precision": 0.17647058823529413,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1117.237,
+      "retrieved_fields": [
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.growth_targets.activation_rate_target",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.growth_targets.channel_id",
+        "short_video_ops.growth_daily_metrics.channel_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.acquisition_channels.channel_type",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.acquisition_channels.owner_team",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_sessions.channel_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.users.registered_at"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(ua.activation_id), 0) AS actual_activation_rate,\n  gt.activation_rate_target,\n  (SUM(CASE WHEN ua.is_activated = 1 THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(ua.activation_id), 0)) - gt.activation_rate_target AS gap\nFROM user_registrations ur\nJOIN acquisition_channels ac ON ur.channel_id = ac.channel_id\nJOIN users u ON ur.user_id = u.user_id\nLEFT JOIN user_activations ua ON u.user_id = ua.user_id\nJOIN growth_targets gt ON ac.channel_id = gt.channel_id\nWHERE u.registered_at >= '2026-05-01' AND u.registered_at < '2026-06-01'\nGROUP BY ac.channel_name, gt.activation_rate_target\nORDER BY gap DESC, ac.channel_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1787.084,
+      "result_correct": false,
+      "column_match": false,
+      "comparison_reason": "返回行数不一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "user_registrations",
+          "acquisition_channels",
+          "users",
+          "user_activations",
+          "growth_targets"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-05",
+            "field": "users.registered_at",
+            "operator": "范围",
+            "value": "['2026-05-01', '2026-06-01')"
+          }
+        ],
+        "metrics": [
+          "实际激活率",
+          "激活率目标",
+          "目标差距"
+        ],
+        "output_columns": [
+          "channel_name",
+          "actual_activation_rate",
+          "activation_rate_target",
+          "gap"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，保持查询逻辑不变。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-001",
+      "scenario": "channel_ops",
+      "category": "消耗趋势",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-01每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1072.23,
+      "retrieved_fields": [
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.ad_daily_stats.clicks",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.channel_attributions.attributed_at",
+        "short_video_ops.ad_daily_stats.click_through_rate",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_accounts.currency",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.user_registrations.registered_at"
+      ],
+      "generated_sql": "SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-01-01' AND stat_date < '2026-02-01' GROUP BY stat_date ORDER BY stat_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1676.856,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "ad_daily_stats"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-01每天",
+            "field": "ad_daily_stats.stat_date",
+            "operator": "范围",
+            "value": "['2026-01-01', '2026-02-01')"
+          }
+        ],
+        "metrics": [
+          "SUM(ad_daily_stats.spend)"
+        ],
+        "output_columns": [
+          "stat_date",
+          "ad_spend"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-002",
+      "scenario": "channel_ops",
+      "category": "消耗趋势",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-02每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1014.22,
+      "retrieved_fields": [
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.ad_daily_stats.clicks",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.click_through_rate",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_accounts.currency",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.channel_attributions.attributed_at",
+        "short_video_ops.ad_accounts.channel_id",
+        "short_video_ops.channel_targets.target_month"
+      ],
+      "generated_sql": "SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-02-01' AND stat_date < '2026-03-01' GROUP BY stat_date ORDER BY stat_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1593.207,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "ad_daily_stats"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-02每天",
+            "field": "ad_daily_stats.stat_date",
+            "operator": "范围",
+            "value": ">= '2026-02-01' AND < '2026-03-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(ad_daily_stats.spend)"
+        ],
+        "output_columns": [
+          "stat_date",
+          "ad_spend"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-003",
+      "scenario": "channel_ops",
+      "category": "消耗趋势",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-03每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1117.069,
+      "retrieved_fields": [
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.ad_daily_stats.clicks",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.ad_daily_stats.click_through_rate",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.channel_attributions.attributed_at",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_accounts.currency",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_accounts.channel_id",
+        "short_video_ops.channel_targets.target_month",
+        "short_video_ops.user_daily_activity.activity_date"
+      ],
+      "generated_sql": "SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-03-01' AND stat_date < '2026-04-01' GROUP BY stat_date ORDER BY stat_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1623.328,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "ad_daily_stats"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-03每天",
+            "field": "ad_daily_stats.stat_date",
+            "operator": "范围",
+            "value": ">= '2026-03-01' AND < '2026-04-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(ad_daily_stats.spend)"
+        ],
+        "output_columns": [
+          "stat_date",
+          "ad_spend"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-004",
+      "scenario": "channel_ops",
+      "category": "消耗趋势",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-04每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 997.034,
+      "retrieved_fields": [
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.ad_daily_stats.clicks",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.ad_daily_stats.click_through_rate",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_accounts.currency",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_name",
+        "short_video_ops.ad_accounts.channel_id",
+        "short_video_ops.user_daily_activity.activity_date",
+        "short_video_ops.channel_attributions.attributed_at",
+        "short_video_ops.user_devices.first_seen_at"
+      ],
+      "generated_sql": "SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-04-01' AND stat_date < '2026-05-01' GROUP BY stat_date ORDER BY stat_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1729.065,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "ad_daily_stats"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-04每天",
+            "field": "ad_daily_stats.stat_date",
+            "operator": "范围",
+            "value": "['2026-04-01', '2026-05-01')"
+          }
+        ],
+        "metrics": [
+          "SUM(ad_daily_stats.spend)"
+        ],
+        "output_columns": [
+          "stat_date",
+          "ad_spend"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-005",
+      "scenario": "channel_ops",
+      "category": "消耗趋势",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-05每天的广告消耗；请返回统计日期、广告消耗；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1029.709,
+      "retrieved_fields": [
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.clicks",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.channel_attributions.attributed_at",
+        "short_video_ops.ad_daily_stats.click_through_rate",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_accounts.currency",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.channel_targets.target_month",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_accounts.channel_id",
+        "short_video_ops.ad_campaigns.ad_campaign_name"
+      ],
+      "generated_sql": "SELECT stat_date, SUM(spend) AS ad_spend FROM ad_daily_stats WHERE stat_date >= '2026-05-01' AND stat_date < '2026-06-01' GROUP BY stat_date ORDER BY stat_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1627.458,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "ad_daily_stats"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-05每天",
+            "field": "ad_daily_stats.stat_date",
+            "operator": "范围",
+            "value": ">= '2026-05-01' AND < '2026-06-01'"
+          }
+        ],
+        "metrics": [
+          "SUM(ad_daily_stats.spend)"
+        ],
+        "output_columns": [
+          "stat_date",
+          "ad_spend"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-066",
+      "scenario": "channel_ops",
+      "category": "转化成本",
+      "query_type": "转化价值",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1041.112,
+      "retrieved_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.user_registrations.registration_method",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.user_registrations.user_id",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.channel_conversion_events.user_id",
+        "short_video_ops.channel_conversion_events.converted_at",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.channel_conversion_events.channel_id",
+        "short_video_ops.channel_targets.registration_target",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.user_registrations.registration_status",
+        "short_video_ops.users.register_platform"
+      ],
+      "generated_sql": "SELECT\n  conversion_type,\n  COUNT(*) AS conversion_count,\n  AVG(conversion_value) AS avg_conversion_value\nFROM channel_conversion_events\nWHERE conversion_type = 'registration'\nGROUP BY conversion_type\nORDER BY conversion_count DESC, conversion_type ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1588.777,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "channel_conversion_events"
+        ],
+        "filters": [
+          {
+            "phrase": "registration转化事件",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "registration"
+          }
+        ],
+        "metrics": [
+          "conversion_count",
+          "avg_conversion_value"
+        ],
+        "output_columns": [
+          "conversion_type",
+          "conversion_count",
+          "avg_conversion_value"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL，修正遗漏的筛选条件 conversion_type='registration'",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-067",
+      "scenario": "channel_ops",
+      "category": "转化成本",
+      "query_type": "转化价值",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "activation转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.10526315789473684,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1076.644,
+      "retrieved_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.channel_conversion_events.converted_at",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.channel_conversion_events.user_id",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.channel_conversion_events.channel_id",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.channel_targets.activation_target",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "generated_sql": "SELECT\n  conversion_type,\n  COUNT(*) AS conversion_count,\n  AVG(conversion_value) AS avg_conversion_value\nFROM channel_conversion_events\nWHERE conversion_type = 'activation'\nGROUP BY conversion_type\nORDER BY conversion_count DESC, conversion_type ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1603.369,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "channel_conversion_events"
+        ],
+        "filters": [
+          {
+            "phrase": "activation转化事件",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "activation"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "AVG(conversion_value)"
+        ],
+        "output_columns": [
+          "conversion_type",
+          "conversion_count",
+          "avg_conversion_value"
+        ]
+      },
+      "agent_reason": "根据校验错误修正SQL，增加 WHERE conversion_type = 'activation' 条件以限定为 activation 类型的转化事件。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-068",
+      "scenario": "channel_ops",
+      "category": "转化成本",
+      "query_type": "转化价值",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "请汇总registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.125,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1018.81,
+      "retrieved_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.user_registrations.registration_method",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.user_registrations.user_id",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_registrations.registration_status",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.user_registrations.platform",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.channel_targets.registration_target",
+        "short_video_ops.ad_daily_stats.cost_per_conversion"
+      ],
+      "generated_sql": "SELECT\n  conversion_type,\n  COUNT(*) AS conversion_count,\n  AVG(conversion_value) AS avg_conversion_value\nFROM channel_conversion_events\nWHERE conversion_type = 'registration'\nGROUP BY conversion_type\nORDER BY conversion_type ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1626.729,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "channel_conversion_events"
+        ],
+        "filters": [
+          {
+            "phrase": "registration转化事件",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "registration"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "AVG(conversion_value)"
+        ],
+        "output_columns": [
+          "conversion_type",
+          "conversion_count",
+          "avg_conversion_value"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL，修正遗漏的筛选条件 conversion_type='registration'",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-069",
+      "scenario": "channel_ops",
+      "category": "转化成本",
+      "query_type": "转化价值",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "请汇总activation转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1111111111111111,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1230.946,
+      "retrieved_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.user_activations.activation_id",
+        "short_video_ops.user_activations.user_id",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.user_activations.is_activated",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.activated_at",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.channel_targets.activation_target",
+        "short_video_ops.channel_conversion_events.converted_at",
+        "short_video_ops.channel_conversion_events.user_id",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.channel_conversion_events.channel_id",
+        "short_video_ops.user_activations.activation_seconds",
+        "short_video_ops.channel_conversion_events.ad_campaign_id"
+      ],
+      "generated_sql": "SELECT\n  conversion_type,\n  COUNT(*) AS conversion_count,\n  AVG(conversion_value) AS avg_value\nFROM channel_conversion_events\nWHERE conversion_type = 'activation'\nGROUP BY conversion_type\nORDER BY conversion_type ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1604.722,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "channel_conversion_events"
+        ],
+        "filters": [
+          {
+            "phrase": "activation转化事件",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "activation"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "AVG(conversion_value)"
+        ],
+        "output_columns": [
+          "conversion_type",
+          "conversion_count",
+          "avg_value"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-070",
+      "scenario": "channel_ops",
+      "category": "转化成本",
+      "query_type": "转化价值",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "请分析registration转化事件的数量和平均价值；请返回转化类型、转化数、平均价值；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_value"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1022.482,
+      "retrieved_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.user_registrations.registration_method",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.user_registrations.user_id",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.ad_daily_stats.conversions",
+        "short_video_ops.users.user_id",
+        "short_video_ops.channel_targets.registration_target",
+        "short_video_ops.user_registrations.registration_status",
+        "short_video_ops.channel_conversion_events.converted_at",
+        "short_video_ops.user_registrations.registered_at",
+        "short_video_ops.user_registrations.platform",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.channel_conversion_events.user_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.ad_daily_stats.cost_per_conversion",
+        "short_video_ops.channel_conversion_events.channel_id"
+      ],
+      "generated_sql": "SELECT \n  conversion_type,\n  COUNT(*) AS conversion_count,\n  AVG(conversion_value) AS avg_conversion_value\nFROM channel_conversion_events\nWHERE conversion_type = 'registration'\nGROUP BY conversion_type",
+      "sql_execution_success": true,
+      "execution_ms": 1575.272,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "channel_conversion_events"
+        ],
+        "filters": [
+          {
+            "phrase": "registration转化事件",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "registration"
+          }
+        ],
+        "metrics": [
+          "conversion_count",
+          "avg_conversion_value"
+        ],
+        "output_columns": [
+          "conversion_type",
+          "conversion_count",
+          "avg_conversion_value"
+        ]
+      },
+      "agent_reason": "根据用户要求分析registration转化事件的数量和平均价值。使用channel_conversion_events表，通过WHERE条件筛选conversion_type='registration'，统计记录数作为转化数，计算conversion_value的算术平均值作为平均价值。返回列顺序为：业务维度(转化类型)、基础业务量(转化数)、派生指标(平均价值)。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-076",
+      "scenario": "channel_ops",
+      "category": "计划账户",
+      "query_type": "计划状态",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "统计active状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。",
+      "gold_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1068.02,
+      "retrieved_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_accounts.account_status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id",
+        "short_video_ops.ad_campaigns.ad_campaign_name",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.channel_attributions.ad_campaign_id",
+        "short_video_ops.ad_creatives.ad_campaign_id",
+        "short_video_ops.budget_adjustments.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_daily_stats.impressions",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_campaigns.channel_id"
+      ],
+      "generated_sql": "SELECT\n  status,\n  COUNT(*) AS ad_campaign_count,\n  SUM(budget) AS total_budget\nFROM ad_campaigns\nWHERE status = 'active'\nGROUP BY status",
+      "sql_execution_success": true,
+      "execution_ms": 1568.024,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "ad_campaigns"
+        ],
+        "filters": [
+          {
+            "phrase": "active状态",
+            "field": "ad_campaigns.status",
+            "operator": "=",
+            "value": "active"
+          }
+        ],
+        "metrics": [
+          "广告计划数",
+          "预算"
+        ],
+        "output_columns": [
+          "status",
+          "ad_campaign_count",
+          "total_budget"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询ad_campaigns表以统计active状态的广告计划数量和预算总和。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-077",
+      "scenario": "channel_ops",
+      "category": "计划账户",
+      "query_type": "计划状态",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "统计completed状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。",
+      "gold_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.16666666666666666,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1060.044,
+      "retrieved_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id",
+        "short_video_ops.ad_campaigns.ad_campaign_name",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.channel_attributions.ad_campaign_id",
+        "short_video_ops.ad_creatives.ad_campaign_id",
+        "short_video_ops.budget_adjustments.ad_campaign_id",
+        "short_video_ops.ad_campaigns.start_date",
+        "short_video_ops.ad_campaigns.channel_id",
+        "short_video_ops.ad_campaigns.end_date",
+        "short_video_ops.ad_daily_stats.spend"
+      ],
+      "generated_sql": "SELECT status, COUNT(*) AS ad_campaign_count, SUM(budget) AS total_budget FROM ad_campaigns WHERE status = 'completed' GROUP BY status",
+      "sql_execution_success": true,
+      "execution_ms": 1565.186,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "ad_campaigns"
+        ],
+        "filters": [
+          {
+            "phrase": "completed状态",
+            "field": "ad_campaigns.status",
+            "operator": "=",
+            "value": "completed"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "SUM(budget)"
+        ],
+        "output_columns": [
+          "status",
+          "ad_campaign_count",
+          "total_budget"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询ad_campaigns表以统计completed状态的广告计划数量和预算总和。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-078",
+      "scenario": "channel_ops",
+      "category": "计划账户",
+      "query_type": "计划状态",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "请汇总统计active状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。",
+      "gold_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.17647058823529413,
+      "schema_true_positive": 3,
+      "retrieval_ms": 988.182,
+      "retrieved_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_accounts.account_status",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_campaigns.ad_campaign_name",
+        "short_video_ops.ad_campaigns.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_creatives.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.channel_attributions.ad_campaign_id",
+        "short_video_ops.budget_adjustments.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.spend",
+        "short_video_ops.ad_campaigns.end_date"
+      ],
+      "generated_sql": "SELECT\n  status,\n  COUNT(*) AS ad_campaign_count,\n  SUM(budget) AS total_budget\nFROM ad_campaigns\nWHERE status = 'active'\nGROUP BY status",
+      "sql_execution_success": true,
+      "execution_ms": 1582.548,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "ad_campaigns"
+        ],
+        "filters": [
+          {
+            "phrase": "active状态",
+            "field": "ad_campaigns.status",
+            "operator": "=",
+            "value": "active"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "SUM(budget)"
+        ],
+        "output_columns": [
+          "status",
+          "ad_campaign_count",
+          "total_budget"
+        ]
+      },
+      "agent_reason": "修正表名引用，移除不存在的 schema 前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-079",
+      "scenario": "channel_ops",
+      "category": "计划账户",
+      "query_type": "计划状态",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "请汇总统计completed状态广告计划的数量和预算；请返回状态、广告计划数、预算；聚合口径：数量指标按对应业务记录计数，可加总指标按当前查询粒度求和。",
+      "gold_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.23076923076923078,
+      "schema_true_positive": 3,
+      "retrieval_ms": 984.0,
+      "retrieved_fields": [
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_campaigns.budget",
+        "short_video_ops.ad_campaigns.ad_campaign_name",
+        "short_video_ops.ad_campaigns.ad_campaign_id",
+        "short_video_ops.ad_daily_stats.ad_campaign_id",
+        "short_video_ops.ad_accounts.ad_account_id",
+        "short_video_ops.ad_campaigns.ad_account_id",
+        "short_video_ops.ad_campaigns.objective",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.ad_daily_stats.stat_date",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.channel_attributions.ad_campaign_id",
+        "short_video_ops.ad_creatives.ad_campaign_id"
+      ],
+      "generated_sql": "SELECT status, COUNT(*) AS ad_campaign_count, SUM(budget) AS total_budget FROM ad_campaigns WHERE status = 'completed' GROUP BY status",
+      "sql_execution_success": true,
+      "execution_ms": 1675.379,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "ad_campaigns"
+        ],
+        "filters": [
+          {
+            "phrase": "completed状态",
+            "field": "ad_campaigns.status",
+            "operator": "=",
+            "value": "completed"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)",
+          "SUM(budget)"
+        ],
+        "output_columns": [
+          "status",
+          "ad_campaign_count",
+          "total_budget"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，去除不存在的schema前缀，直接查询ad_campaigns表以统计completed状态的广告计划数量和预算总和。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-101",
+      "scenario": "channel_ops",
+      "category": "素材结构",
+      "query_type": "素材分布",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "短视频创意的状态分布；请返回创意状态、创意数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.ad_creatives.creative_type",
+        "short_video_ops.ad_creatives.creative_status",
+        "short_video_ops.ad_creatives.creative_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1021.516,
+      "retrieved_fields": [
+        "short_video_ops.ad_creatives.creative_status",
+        "short_video_ops.ad_creatives.creative_type",
+        "short_video_ops.ad_creatives.creative_theme",
+        "short_video_ops.ad_creatives.creative_id",
+        "short_video_ops.ad_creatives.creative_name",
+        "short_video_ops.ad_campaigns.status",
+        "short_video_ops.ad_accounts.account_status",
+        "short_video_ops.ad_creatives.ad_campaign_id",
+        "short_video_ops.users.nickname",
+        "short_video_ops.users.account_status",
+        "short_video_ops.ad_daily_stats.ad_stat_id",
+        "short_video_ops.user_daily_activity.play_count",
+        "short_video_ops.user_registrations.registration_status",
+        "short_video_ops.channel_attributions.attribution_type",
+        "short_video_ops.channel_attributions.channel_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.user_activations.activation_rule",
+        "short_video_ops.ad_campaigns.ad_campaign_id",
+        "short_video_ops.channel_attributions.ad_campaign_id",
+        "short_video_ops.channel_attributions.attribution_id"
+      ],
+      "generated_sql": "SELECT creative_status, COUNT(*) AS creative_count FROM ad_creatives WHERE creative_type = '短视频' GROUP BY creative_status ORDER BY creative_count DESC, creative_status ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1573.267,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "ad_creatives"
+        ],
+        "filters": [
+          {
+            "phrase": "短视频创意",
+            "field": "ad_creatives.creative_type",
+            "operator": "=",
+            "value": "短视频"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)"
+        ],
+        "output_columns": [
+          "creative_status",
+          "creative_count"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL，修正遗漏的创意类型筛选条件",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CHANNEL_OPS-141",
+      "scenario": "channel_ops",
+      "category": "归因与目标",
+      "query_type": "事件归因",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "registration转化按渠道分布；请返回渠道名称、转化数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.acquisition_channels.channel_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1013.028,
+      "retrieved_fields": [
+        "short_video_ops.user_registrations.channel_id",
+        "short_video_ops.user_registrations.registration_method",
+        "short_video_ops.acquisition_channels.channel_id",
+        "short_video_ops.users.register_channel_id",
+        "short_video_ops.acquisition_channels.channel_name",
+        "short_video_ops.channel_conversion_events.channel_id",
+        "short_video_ops.channel_conversion_events.conversion_type",
+        "short_video_ops.user_registrations.platform",
+        "short_video_ops.user_registrations.registration_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.channel_attributions.channel_id",
+        "short_video_ops.channel_conversion_events.user_id",
+        "short_video_ops.acquisition_channels.channel_type",
+        "short_video_ops.acquisition_channels.owner_team",
+        "short_video_ops.user_activations.registration_id",
+        "short_video_ops.acquisition_channels.enabled",
+        "short_video_ops.channel_conversion_events.ad_campaign_id",
+        "short_video_ops.channel_conversion_events.conversion_value",
+        "short_video_ops.channel_conversion_events.conversion_event_id",
+        "short_video_ops.ad_accounts.channel_id"
+      ],
+      "generated_sql": "SELECT\n  ac.channel_name,\n  COUNT(*) AS conversion_count\nFROM channel_conversion_events cce\nJOIN acquisition_channels ac ON cce.channel_id = ac.channel_id\nWHERE cce.conversion_type = 'registration'\nGROUP BY ac.channel_name\nORDER BY conversion_count DESC, ac.channel_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1613.068,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "channel_conversion_events",
+          "acquisition_channels"
+        ],
+        "filters": [
+          {
+            "phrase": "转化",
+            "field": "channel_conversion_events.conversion_type",
+            "operator": "=",
+            "value": "registration"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)"
+        ],
+        "output_columns": [
+          "channel_name",
+          "conversion_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询目标数据库中的表。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-001",
+      "scenario": "content_ops",
+      "category": "曝光播放",
+      "query_type": "月度趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-01每天的视频曝光量和播放量；请返回指标日期、曝光量、播放量；聚合口径：可加总指标按当前查询粒度求和；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.content_daily_metrics.metric_date",
+        "short_video_ops.content_daily_metrics.impressions",
+        "short_video_ops.content_daily_metrics.play_count"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 7076.869,
+      "retrieved_fields": [
+        "short_video_ops.content_daily_metrics.metric_date",
+        "short_video_ops.content_daily_metrics.impressions",
+        "short_video_ops.video_exposures.exposed_at",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.creator_daily_metrics.metric_date",
+        "short_video_ops.video_exposures.exposure_id",
+        "short_video_ops.video_exposures.content_id",
+        "short_video_ops.video_exposures.user_id",
+        "short_video_ops.video_plays.played_at",
+        "short_video_ops.video_plays.exposure_id",
+        "short_video_ops.video_exposures.position_name",
+        "short_video_ops.video_exposures.clicked",
+        "short_video_ops.video_exposures.recommendation_source",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.content_daily_metrics.play_count",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.contents.published_at",
+        "short_video_ops.video_interactions.interacted_at",
+        "short_video_ops.users.user_id",
+        "short_video_ops.content_daily_metrics.play_rate"
+      ],
+      "generated_sql": "SELECT metric_date, SUM(impressions) AS impressions, SUM(play_count) AS play_count FROM content_daily_metrics WHERE metric_date >= '2026-01-01' AND metric_date < '2026-02-01' GROUP BY metric_date ORDER BY metric_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1597.77,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "content_daily_metrics"
+        ],
+        "filters": [
+          {
+            "phrase": "2026-01",
+            "field": "metric_date",
+            "operator": "范围",
+            "value": "['2026-01-01', '2026-02-01')"
+          }
+        ],
+        "metrics": [
+          "曝光量",
+          "播放量"
+        ],
+        "output_columns": [
+          "metric_date",
+          "impressions",
+          "play_count"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 1,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 1
+    },
+    {
+      "case_id": "CONTENT_OPS-029",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "观看质量",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "基于播放明细，计算知识类内容每次播放的平均观看时长和平均完播率；请返回内容分类、平均观看时长、平均完播率；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.video_plays.watch_seconds",
+        "short_video_ops.video_plays.completion_rate"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1066.426,
+      "retrieved_fields": [
+        "short_video_ops.video_plays.completion_rate",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.video_plays.watch_seconds",
+        "short_video_ops.video_plays.content_id",
+        "short_video_ops.video_plays.user_id",
+        "short_video_ops.video_plays.completed",
+        "short_video_ops.video_plays.play_id",
+        "short_video_ops.video_plays.played_at",
+        "short_video_ops.video_plays.exposure_id",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.video_plays.network_type",
+        "short_video_ops.content_daily_metrics.completion_rate",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.content_daily_metrics.watch_seconds",
+        "short_video_ops.video_exposures.user_id",
+        "short_video_ops.content_daily_metrics.play_rate",
+        "short_video_ops.contents.duration_seconds",
+        "short_video_ops.video_exposures.clicked",
+        "short_video_ops.user_profiles.primary_interest",
+        "short_video_ops.content_daily_metrics.play_count"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  AVG(vp.watch_seconds) AS \"平均观看时长\",\n  AVG(vp.completion_rate) AS \"平均完播率\"\nFROM video_plays vp\nJOIN contents c ON vp.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cc.category_name = '知识'\nGROUP BY cc.category_name",
+      "sql_execution_success": true,
+      "execution_ms": 1735.326,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "video_plays",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "知识类内容",
+            "field": "content_categories.category_name",
+            "operator": "=",
+            "value": "知识"
+          }
+        ],
+        "metrics": [
+          "AVG(video_plays.watch_seconds)",
+          "AVG(video_plays.completion_rate)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "平均观看时长",
+          "平均完播率"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接查询知识类内容的播放明细指标。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-030",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "观看质量",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "基于播放明细，计算体育类内容每次播放的平均观看时长和平均完播率；请返回内容分类、平均观看时长、平均完播率；聚合口径：平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.video_plays.watch_seconds",
+        "short_video_ops.video_plays.completion_rate"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 962.105,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.video_plays.completion_rate",
+        "short_video_ops.video_plays.watch_seconds",
+        "short_video_ops.video_plays.content_id",
+        "short_video_ops.video_plays.play_id",
+        "short_video_ops.video_plays.user_id",
+        "short_video_ops.video_plays.completed",
+        "short_video_ops.video_plays.played_at",
+        "short_video_ops.video_plays.exposure_id",
+        "short_video_ops.video_plays.network_type",
+        "short_video_ops.video_interactions.play_id",
+        "short_video_ops.content_daily_metrics.completion_rate",
+        "short_video_ops.content_daily_metrics.watch_seconds",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.content_daily_metrics.play_rate",
+        "short_video_ops.video_exposures.user_id",
+        "short_video_ops.contents.duration_seconds",
+        "short_video_ops.user_profiles.primary_interest",
+        "short_video_ops.content_daily_metrics.play_count"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  AVG(vp.watch_seconds) AS \"平均观看时长\",\n  AVG(vp.completion_rate) AS \"平均完播率\"\nFROM video_plays vp\nJOIN contents c ON vp.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cc.category_name = '体育'\nGROUP BY cc.category_name",
+      "sql_execution_success": true,
+      "execution_ms": 1689.339,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "video_plays",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "体育类内容",
+            "field": "content_categories.category_name",
+            "operator": "=",
+            "value": "体育"
+          }
+        ],
+        "metrics": [
+          "AVG(video_plays.watch_seconds)",
+          "AVG(video_plays.completion_rate)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "平均观看时长",
+          "平均完播率"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-031",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动分布",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "like互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1095.05,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.content_tags.tag_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.contents.visibility",
+        "short_video_ops.video_interactions.user_id",
+        "short_video_ops.content_tag_relations.content_tag_relation_id",
+        "short_video_ops.content_daily_metrics.content_metric_id"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  COUNT(vi.interaction_id) AS \"互动数\"\nFROM video_interactions vi\nJOIN contents c ON vi.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE vi.interaction_type = 'like'\nGROUP BY cc.category_name\nORDER BY \"互动数\" DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1633.435,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "video_interactions",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "like互动",
+            "field": "video_interactions.interaction_type",
+            "operator": "=",
+            "value": "like"
+          }
+        ],
+        "metrics": [
+          "COUNT(video_interactions.interaction_id)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "互动数"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-032",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动分布",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "comment互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1067.778,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.content_tags.tag_type",
+        "short_video_ops.content_daily_metrics.content_metric_id",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.users.user_id",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_tag_relations.content_tag_relation_id",
+        "short_video_ops.content_tag_relations.content_id"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  COUNT(vi.interaction_id) AS \"互动数\"\nFROM video_interactions vi\nJOIN contents c ON vi.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE vi.interaction_type = 'comment'\nGROUP BY cc.category_name\nORDER BY \"互动数\" DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1698.919,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "video_interactions",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "comment互动",
+            "field": "video_interactions.interaction_type",
+            "operator": "=",
+            "value": "comment"
+          }
+        ],
+        "metrics": [
+          "COUNT(video_interactions.interaction_id)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "互动数"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，DuckDB中直接使用表名即可，无需schema前缀。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-033",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动分布",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "share互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1049.117,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.content_tag_relations.content_id",
+        "short_video_ops.content_tag_relations.content_tag_relation_id",
+        "short_video_ops.content_tags.tag_type",
+        "short_video_ops.video_interactions.user_id",
+        "short_video_ops.contents.visibility"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS content_category,\n  COUNT(vi.interaction_id) AS interaction_count\nFROM video_interactions vi\nJOIN contents c ON vi.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE vi.interaction_type = 'share'\nGROUP BY cc.category_name\nORDER BY interaction_count DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1661.354,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "video_interactions",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "share互动",
+            "field": "video_interactions.interaction_type",
+            "operator": "=",
+            "value": "share"
+          }
+        ],
+        "metrics": [
+          "COUNT(video_interactions.interaction_id)"
+        ],
+        "output_columns": [
+          "content_category",
+          "interaction_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接使用表名执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 5,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-034",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动分布",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "favorite互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1186.161,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_tags.tag_type",
+        "short_video_ops.video_interactions.user_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.contents.visibility",
+        "short_video_ops.users.user_id",
+        "short_video_ops.content_daily_metrics.content_metric_id"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  COUNT(vi.interaction_id) AS \"互动数\"\nFROM video_interactions vi\nJOIN contents c ON vi.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE vi.interaction_type = 'favorite'\nGROUP BY cc.category_name\nORDER BY \"互动数\" DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1614.23,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "video_interactions",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "favorite互动",
+            "field": "video_interactions.interaction_type",
+            "operator": "=",
+            "value": "favorite"
+          }
+        ],
+        "metrics": [
+          "COUNT(video_interactions.interaction_id)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "互动数"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-035",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动分布",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "follow互动按内容分类分布；请返回内容分类、互动数；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 998.39,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.content_daily_metrics.content_metric_id",
+        "short_video_ops.contents.visibility",
+        "short_video_ops.video_interactions.user_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.content_tags.tag_type"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS content_category,\n  COUNT(vi.interaction_id) AS interaction_count\nFROM video_interactions vi\nJOIN contents c ON vi.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE vi.interaction_type = 'follow'\nGROUP BY cc.category_name\nORDER BY interaction_count DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1719.334,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "video_interactions",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "follow互动",
+            "field": "video_interactions.interaction_type",
+            "operator": "=",
+            "value": "follow"
+          }
+        ],
+        "metrics": [
+          "COUNT(video_interactions.interaction_id)"
+        ],
+        "output_columns": [
+          "content_category",
+          "interaction_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，移除不存在的schema名称，直接引用表名以符合DuckDB当前环境的Catalog结构。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-036",
+      "scenario": "content_ops",
+      "category": "观看互动",
+      "query_type": "互动趋势",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "2026-01每天的有效互动数；请返回互动日期、互动数；聚合口径：数量指标按对应业务记录计数；按时间升序展示。",
+      "gold_fields": [
+        "short_video_ops.video_interactions.interacted_at",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.video_interactions.interaction_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1048.913,
+      "retrieved_fields": [
+        "short_video_ops.video_interactions.interacted_at",
+        "short_video_ops.video_interactions.valid_interaction",
+        "short_video_ops.creator_daily_metrics.interaction_count",
+        "short_video_ops.content_daily_metrics.metric_date",
+        "short_video_ops.content_daily_metrics.interaction_count",
+        "short_video_ops.users.registered_at",
+        "short_video_ops.video_interactions.interaction_type",
+        "short_video_ops.video_plays.played_at",
+        "short_video_ops.content_reports.reported_at",
+        "short_video_ops.video_interactions.interaction_id",
+        "short_video_ops.user_tag_relations.assigned_at",
+        "short_video_ops.creator_daily_metrics.metric_date",
+        "short_video_ops.content_audits.audited_at",
+        "short_video_ops.video_exposures.exposed_at",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.video_interactions.user_id",
+        "short_video_ops.contents.published_at",
+        "short_video_ops.video_interactions.content_id",
+        "short_video_ops.video_plays.play_id",
+        "short_video_ops.trending_topics.start_date"
+      ],
+      "generated_sql": "SELECT CAST(interacted_at AS DATE) AS interacted_date, COUNT(*) AS interaction_count FROM video_interactions WHERE valid_interaction = 1 AND interacted_at >= '2026-01-01' AND interacted_at < '2026-02-01' GROUP BY CAST(interacted_at AS DATE) ORDER BY interacted_date ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1605.981,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "时间趋势",
+        "source_tables": [
+          "video_interactions"
+        ],
+        "filters": [
+          {
+            "phrase": "有效互动",
+            "field": "video_interactions.valid_interaction",
+            "operator": "=",
+            "value": "1"
+          },
+          {
+            "phrase": "2026-01每天",
+            "field": "video_interactions.interacted_at",
+            "operator": "range",
+            "value": "['2026-01-01', '2026-02-01')"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)"
+        ],
+        "output_columns": [
+          "interacted_date",
+          "interaction_count"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-051",
+      "scenario": "content_ops",
+      "category": "分类内容",
+      "query_type": "内容供给",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "搞笑类内容数量和平均视频时长；请返回内容分类、内容数量、平均视频时长；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均。",
+      "gold_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.contents.duration_seconds"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1257.343,
+      "retrieved_fields": [
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.contents.duration_seconds",
+        "short_video_ops.contents.visibility",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.contents.content_status",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.user_profiles.primary_interest",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.content_reports.content_id",
+        "short_video_ops.content_tag_relations.content_id",
+        "short_video_ops.content_daily_metrics.watch_seconds",
+        "short_video_ops.contents.creator_id",
+        "short_video_ops.video_plays.content_id",
+        "short_video_ops.contents.published_at",
+        "short_video_ops.contents.quality_score",
+        "short_video_ops.content_audits.content_id",
+        "short_video_ops.video_interactions.valid_interaction"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  COUNT(c.content_id) AS \"内容数量\",\n  AVG(c.duration_seconds) AS \"平均视频时长\"\nFROM contents c\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cc.category_name = '搞笑'\nGROUP BY cc.category_name",
+      "sql_execution_success": true,
+      "execution_ms": 1588.066,
+      "result_correct": false,
+      "column_match": false,
+      "comparison_reason": "返回数据与标准结果不一致",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "搞笑类",
+            "field": "content_categories.category_name",
+            "operator": "=",
+            "value": "搞笑"
+          }
+        ],
+        "metrics": [
+          "COUNT(contents.content_id)",
+          "AVG(contents.duration_seconds)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "内容数量",
+          "平均视频时长"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名前缀，DuckDB中直接引用表名即可，无需schema前缀。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-076",
+      "scenario": "content_ops",
+      "category": "创作者",
+      "query_type": "创作者分层",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "新星级创作者数量和状态分布；请返回创作者状态、创作者数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.creators.creator_level",
+        "short_video_ops.creators.creator_status",
+        "short_video_ops.creators.creator_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1002.96,
+      "retrieved_fields": [
+        "short_video_ops.creators.creator_status",
+        "short_video_ops.creators.creator_level",
+        "short_video_ops.creators.creator_id",
+        "short_video_ops.creators.creator_name",
+        "short_video_ops.creator_daily_metrics.creator_id",
+        "short_video_ops.creator_profiles.creator_id",
+        "short_video_ops.creator_profiles.creator_type",
+        "short_video_ops.creators.joined_at",
+        "short_video_ops.contents.creator_id",
+        "short_video_ops.creator_daily_metrics.metric_date",
+        "short_video_ops.user_tags.tag_name",
+        "short_video_ops.creator_daily_metrics.creator_metric_id",
+        "short_video_ops.creator_daily_metrics.published_count",
+        "short_video_ops.creator_profiles.published_content_count",
+        "short_video_ops.creator_profiles.primary_category_id",
+        "short_video_ops.creator_profiles.snapshot_date",
+        "short_video_ops.creator_daily_metrics.play_count",
+        "short_video_ops.creator_daily_metrics.interaction_rate",
+        "short_video_ops.creator_daily_metrics.interaction_count",
+        "short_video_ops.users.account_status"
+      ],
+      "generated_sql": "SELECT creator_status, COUNT(*) AS creator_count FROM creators WHERE creator_level = '新星' GROUP BY creator_status ORDER BY creator_status",
+      "sql_execution_success": true,
+      "execution_ms": 1736.554,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "creators"
+        ],
+        "filters": [
+          {
+            "phrase": "新星级创作者",
+            "field": "creators.creator_level",
+            "operator": "=",
+            "value": "新星"
+          }
+        ],
+        "metrics": [
+          "creator_count"
+        ],
+        "output_columns": [
+          "creator_status",
+          "creator_count"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-121",
+      "scenario": "content_ops",
+      "category": "标签热点",
+      "query_type": "热点加热",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "流量加热系数至少1.0的热点内容数量和平均排名；请返回最低流量加热系数、内容数量、平均排名；聚合口径：数量指标按对应业务记录计数，平均指标取算术平均；按核心指标从高到低展示。",
+      "gold_fields": [
+        "short_video_ops.topic_content_relations.traffic_boost",
+        "short_video_ops.topic_content_relations.content_id",
+        "short_video_ops.topic_content_relations.ranking"
+      ],
+      "schema_recall": 0.6666666666666666,
+      "schema_precision": 0.6666666666666666,
+      "schema_true_positive": 2,
+      "retrieval_ms": 1238.399,
+      "retrieved_fields": [
+        "short_video_ops.topic_content_relations.traffic_boost",
+        "short_video_ops.topic_content_relations.ranking",
+        "short_video_ops.trending_topics.heat_score"
+      ],
+      "generated_sql": "SELECT MIN(traffic_boost) AS min_traffic_boost, COUNT(*) AS content_count, AVG(ranking) AS avg_ranking FROM topic_content_relations WHERE traffic_boost >= 1.0 ORDER BY min_traffic_boost DESC LIMIT 1",
+      "sql_execution_success": true,
+      "execution_ms": 1617.839,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "单行汇总",
+        "source_tables": [
+          "topic_content_relations"
+        ],
+        "filters": [
+          {
+            "phrase": "流量加热系数至少1.0",
+            "field": "topic_content_relations.traffic_boost",
+            "operator": ">=",
+            "value": "1.0"
+          }
+        ],
+        "metrics": [
+          "min_traffic_boost",
+          "content_count",
+          "avg_ranking"
+        ],
+        "output_columns": [
+          "min_traffic_boost",
+          "content_count",
+          "avg_ranking"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-126",
+      "scenario": "content_ops",
+      "category": "审核举报",
+      "query_type": "审核状态",
+      "difficulty": "简单",
+      "classic": true,
+      "query": "approved审核状态按风险类型分布；请返回风险类型、审核数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.content_audits.audit_status",
+        "short_video_ops.content_audits.risk_type",
+        "short_video_ops.content_audits.audit_id"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.75,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1108.765,
+      "retrieved_fields": [
+        "short_video_ops.content_audits.risk_type",
+        "short_video_ops.content_audits.audit_status",
+        "short_video_ops.content_audits.review_mode",
+        "short_video_ops.content_audits.audit_id"
+      ],
+      "generated_sql": "SELECT risk_type, COUNT(*) AS audit_count FROM content_audits WHERE audit_status = 'approved' GROUP BY risk_type ORDER BY audit_count DESC",
+      "sql_execution_success": true,
+      "execution_ms": 1628.328,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "content_audits"
+        ],
+        "filters": [
+          {
+            "phrase": "approved审核状态",
+            "field": "audit_status",
+            "operator": "=",
+            "value": "approved"
+          }
+        ],
+        "metrics": [
+          "COUNT(*)"
+        ],
+        "output_columns": [
+          "risk_type",
+          "audit_count"
+        ]
+      },
+      "agent_reason": "根据查询契约生成并执行只读SQL",
+      "benchmark_error": "",
+      "model_request_attempt_count": 3,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-136",
+      "scenario": "content_ops",
+      "category": "审核举报",
+      "query_type": "举报原因",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "不感兴趣举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 2630.49,
+      "retrieved_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.content_reports.content_id",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_reports.user_id",
+        "short_video_ops.content_reports.reported_at",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.content_reports.process_status",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.content_audits.content_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.content_tag_relations.content_tag_relation_id",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.content_daily_metrics.content_metric_id",
+        "short_video_ops.content_tag_relations.content_id",
+        "short_video_ops.contents.content_title"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS content_category,\n  COUNT(cr.report_id) AS report_count\nFROM content_reports cr\nJOIN contents c ON cr.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cr.report_reason = '不感兴趣'\nGROUP BY cc.category_name\nORDER BY report_count DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1657.003,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "content_reports",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "不感兴趣举报",
+            "field": "content_reports.report_reason",
+            "operator": "=",
+            "value": "不感兴趣"
+          }
+        ],
+        "metrics": [
+          "COUNT(content_reports.report_id)"
+        ],
+        "output_columns": [
+          "content_category",
+          "report_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除数据库前缀以适配DuckDB环境，保持查询逻辑不变。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-137",
+      "scenario": "content_ops",
+      "category": "审核举报",
+      "query_type": "举报原因",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "低俗内容举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.15,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1052.674,
+      "retrieved_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.content_reports.content_id",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.content_reports.reported_at",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.content_reports.user_id",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.content_reports.process_status",
+        "short_video_ops.content_audits.risk_type",
+        "short_video_ops.content_audits.content_id",
+        "short_video_ops.users.user_id",
+        "short_video_ops.contents.content_title",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.content_tags.tag_name",
+        "short_video_ops.contents.content_status",
+        "short_video_ops.content_tag_relations.content_id"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS content_category,\n  COUNT(cr.report_id) AS report_count\nFROM content_reports cr\nJOIN contents c ON cr.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cr.report_reason = '低俗内容'\nGROUP BY cc.category_name\nORDER BY report_count DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1772.011,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "content_reports",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "低俗内容举报",
+            "field": "content_reports.report_reason",
+            "operator": "=",
+            "value": "低俗内容"
+          }
+        ],
+        "metrics": [
+          "COUNT(content_reports.report_id)"
+        ],
+        "output_columns": [
+          "content_category",
+          "report_count"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，重新执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    },
+    {
+      "case_id": "CONTENT_OPS-138",
+      "scenario": "content_ops",
+      "category": "审核举报",
+      "query_type": "举报原因",
+      "difficulty": "中等",
+      "classic": true,
+      "query": "侵权搬运举报按内容分类分布；请返回内容分类、举报数量；聚合口径：数量指标按对应业务记录计数。",
+      "gold_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.content_categories.category_name"
+      ],
+      "schema_recall": 1.0,
+      "schema_precision": 0.1875,
+      "schema_true_positive": 3,
+      "retrieval_ms": 1291.164,
+      "retrieved_fields": [
+        "short_video_ops.content_reports.report_reason",
+        "short_video_ops.content_reports.content_id",
+        "short_video_ops.content_reports.report_id",
+        "short_video_ops.content_categories.category_name",
+        "short_video_ops.content_categories.category_id",
+        "short_video_ops.content_categories.enabled",
+        "short_video_ops.contents.category_id",
+        "short_video_ops.content_categories.category_level",
+        "short_video_ops.content_reports.user_id",
+        "short_video_ops.content_reports.reported_at",
+        "short_video_ops.content_reports.process_status",
+        "short_video_ops.contents.content_id",
+        "short_video_ops.content_audits.risk_type",
+        "short_video_ops.users.user_id",
+        "short_video_ops.content_daily_metrics.content_id",
+        "short_video_ops.content_audits.content_id"
+      ],
+      "generated_sql": "SELECT \n  cc.category_name AS \"内容分类\",\n  COUNT(cr.report_id) AS \"举报数量\"\nFROM content_reports cr\nJOIN contents c ON cr.content_id = c.content_id\nJOIN content_categories cc ON c.category_id = cc.category_id\nWHERE cr.report_reason = '侵权搬运'\nGROUP BY cc.category_name\nORDER BY \"举报数量\" DESC, cc.category_name ASC",
+      "sql_execution_success": true,
+      "execution_ms": 1763.203,
+      "result_correct": true,
+      "column_match": false,
+      "comparison_reason": "结果一致（忽略列顺序和辅助列）",
+      "agent_action": "executed",
+      "query_contract": {
+        "grain": "分组汇总",
+        "source_tables": [
+          "content_reports",
+          "contents",
+          "content_categories"
+        ],
+        "filters": [
+          {
+            "phrase": "侵权搬运",
+            "field": "content_reports.report_reason",
+            "operator": "=",
+            "value": "侵权搬运"
+          }
+        ],
+        "metrics": [
+          "COUNT(content_reports.report_id)"
+        ],
+        "output_columns": [
+          "内容分类",
+          "举报数量"
+        ]
+      },
+      "agent_reason": "修正SQL中的表名引用，移除不存在的schema前缀，直接使用表名执行查询。",
+      "benchmark_error": "",
+      "model_request_attempt_count": 4,
+      "model_retry_count": 0,
+      "model_timeout_event_count": 0,
+      "model_connection_error_event_count": 0
+    }
+  ]
+}

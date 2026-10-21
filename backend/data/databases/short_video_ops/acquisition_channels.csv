@@ -1,0 +1,11 @@
+﻿channel_id,channel_name,channel_type,owner_team,enabled
+CH01,自然推荐,organic,增长运营中心,1
+CH02,应用商店,organic,增长运营中心,1
+CH03,信息流广告,paid,增长运营中心,1
+CH04,搜索广告,paid,增长运营中心,1
+CH05,达人推广,paid,增长运营中心,1
+CH06,品牌广告,paid,增长运营中心,1
+CH07,好友邀请,referral,增长运营中心,1
+CH08,社交分享,referral,增长运营中心,1
+CH09,线下活动,offline,增长运营中心,1
+CH10,其他渠道,other,增长运营中心,1

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "result:f05a1f5cbb36",
+    "user_id": "demo_admin",
+    "kind": "result_table",
+    "task_id": "f05a1f5cbb36",
+    "query": "2026-01各内容分类播放量排名。",
+    "summary": "2026年1月播放量排名第一的内容分类为时尚（300次），其次为亲子（255次）和科技（248次），旅行分类以182次播放量位列末位。",
+    "title": "2026年1月内容分类播放量排名",
+    "columns": [
+      "category_name",
+      "play_count"
+    ],
+    "rows": [
+      {
+        "category_name": "时尚",
+        "play_count": 300
+      },
+      {
+        "category_name": "亲子",
+        "play_count": 255
+      },
+      {
+        "category_name": "科技",
+        "play_count": 248
+      },
+      {
+        "category_name": "游戏",
+        "play_count": 242
+      },
+      {
+        "category_name": "体育",
+        "play_count": 241
+      },
+      {
+        "category_name": "影视",
+        "play_count": 235
+      },
+      {
+        "category_name": "生活",
+        "play_count": 221
+      },
+      {
+        "category_name": "搞笑",
+        "play_count": 213
+      },
+      {
+        "category_name": "知识",
+        "play_count": 196
+      },
+      {
+        "category_name": "美食",
+        "play_count": 192
+      },
+      {
+        "category_name": "音乐",
+        "play_count": 190
+      },
+      {
+        "category_name": "旅行",
+        "play_count": 182
+      }
+    ],
+    "created_at": "2026-10-21T11:18:53"
+  },
+  {
+    "id": "result:25c543640e07",
+    "user_id": "demo_admin",
+    "kind": "result_table",
+    "task_id": "25c543640e07",
+    "query": "华东用户平均活跃时长和平均会话次数。",
+    "summary": "华东地区用户平均活跃时长为32.96分钟，平均会话次数为2.06次。",
+    "title": "华东用户平均活跃时长与会话次数",
+    "columns": [
+      "avg_active_minutes",
+      "avg_session_count"
+    ],
+    "rows": [
+      {
+        "avg_active_minutes": 32.96,
+        "avg_session_count": 2.06
+      }
+    ],
+    "created_at": "2026-10-21T11:05:58"
+  },
+  {
+    "id": "result:3b470ce727b3",
+    "user_id": "demo_admin",
+    "kind": "result_table",
+    "task_id": "3b470ce727b3",
+    "query": "广告消耗",
+    "summary": "数据显示华东地区消耗最高，为157653897.32元，其次是华南（130641721.52元）、华北（91811793.32元）、西南（72569283.40元）和华中（65716240.78元）。",
+    "title": "2026年8月各地区广告消耗统计",
+    "columns": [
+      "region",
+      "total_spend"
+    ],
+    "rows": [
+      {
+        "region": "华东",
+        "total_spend": 157653897.31999555
+      },
+      {
+        "region": "华南",
+        "total_spend": 130641721.51999685
+      },
+      {
+        "region": "华北",
+        "total_spend": 91811793.31999618
+      },
+      {
+        "region": "西南",
+        "total_spend": 72569283.39999935
+      },
+      {
+        "region": "华中",
+        "total_spend": 65716240.7800017
+      }
+    ],
+    "created_at": "2026-10-19T22:06:13"
+  }
+]
