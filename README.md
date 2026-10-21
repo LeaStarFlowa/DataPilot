@@ -1,6 +1,6 @@
-# DataPilot Studio 运营场景版
+# DataPilot Studio
 
-面向短视频运营的Text2SQL项目，包含 Vue 前端、FastAPI + LangGraph 后端、41 张 CSV 数据表、字段级 Schema 索引、测试脚本和当前评测报告。
+面向短视频平台运营场景的Text2SQL项目，包含 Vue 前端、FastAPI + LangGraph 后端、41 张 CSV 数据表、字段级 Schema 索引、测试脚本和当前评测报告。
 
 ## 环境要求
 
